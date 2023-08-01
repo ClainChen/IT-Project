@@ -11,7 +11,7 @@ namespace DOT.Utilities
         /// <summary>
         /// 1. Get the world position and translate it to screen position (needs z-axis coordinate)
         /// 2. Get the mouse position
-        /// 3. mouse's z-axis coordinate should be equal to world's z-axis cooridnate
+        /// 3. mouse's z-axis coordinate should be equal to world's z-axis coordinate
         /// 4. Change the mouse position to world position
         /// </summary>
         /// <returns></returns>

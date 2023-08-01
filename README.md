@@ -10,3 +10,14 @@
   - ProjectSettings/
   - Check the details in .gitignore
 - Working on the test demo
+- Finish test demo, realize
+
+The following functions are implemented:
+1. Built a simple dot matrix
+2. line is implemented
+3. When the mouse is clicked, it is in the area where a line can be generated
+4. Check if the mouse has passed another point on its way when it was pressed
+5. Realize the function of point adsorption
+6. When the mouse button is raised, the line disappears
+
+The related functions of touch screen have not been implemented, and the plan is to implement and complete the test within a week.
