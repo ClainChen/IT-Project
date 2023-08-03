@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Matrix1
+  - Matrix2
   layers:
   - Default
   - TransparentFX

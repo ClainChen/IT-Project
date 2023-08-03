@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using DOT.UI;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem.EnhancedTouch;
@@ -21,15 +22,18 @@ namespace DOT.Line
         private bool lineIsOn = false;
         private List<GameObject> dotList;
         private List<GameObject> remainDots = new List<GameObject>();
+        private List<GameObject> touchingDots = new List<GameObject>();
         private int numTouchedDots = 0;
+        private ConnectTextController text;
 
         // Start is called before the first frame update
         void Start()
         {
+            text = GetComponent<ConnectTextController>();
             Instantiate(line, Vector3.zero, Quaternion.identity);
             Debug.Log("The line is at: " + line.gameObject.transform.position);
             // FadeRegion();
-            dotList = GameObject.FindGameObjectsWithTag("Matrix1").ToList();
+            dotList = GameObject.FindGameObjectsWithTag("Matrix2").ToList();
             Debug.Log(dotList);
 
         }
@@ -54,7 +58,7 @@ namespace DOT.Line
         // 鼠标左键按下后的行为
         void OnTouch()
         {
-            Vector3 mousePosition = IUtils.GetMouseWorldPosition();
+            Vector3 mousePosition = Utils.GetMouseWorldPosition();
             Vector3 startPosition = InRegion(mousePosition);
             if (!startPosition.Equals(Vector3.negativeInfinity))
             {
@@ -71,13 +75,14 @@ namespace DOT.Line
             lineIsOn = false;
             line.positionCount = 0;
             remainDots.Clear();
+            text.ResetCoordinates();
             numTouchedDots = 0;
         }
 
         // 保持鼠标左键按下时的行为
         void Touching()
         {
-            Vector3 mousePosition = IUtils.GetMouseWorldPosition();
+            Vector3 mousePosition = Utils.GetMouseWorldPosition();
             foreach (GameObject dot in remainDots)
             {
                 Bounds bounds = dot.GetComponent<CircleCollider2D>().bounds;
@@ -86,6 +91,8 @@ namespace DOT.Line
                     line.positionCount = numTouchedDots + 1;
                     line.SetPosition(numTouchedDots, dot.transform.position);
                     remainDots.Remove(dot);
+                    touchingDots.Add(dot);
+                    text.AddCoordinates(dot.name.Substring(7));
                     numTouchedDots++;
                     break;
                 }
@@ -113,6 +120,9 @@ namespace DOT.Line
                         {
                             remainDots.Add(d);
                         }
+                        remainDots.Remove(dot);
+                        touchingDots.Add(dot);
+                        text.AddCoordinates(dot.name.Substring(7));
                         numTouchedDots += 1;
                         return dot.transform.position;
                     }

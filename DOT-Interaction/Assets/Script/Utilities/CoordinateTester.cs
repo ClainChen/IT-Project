@@ -12,7 +12,7 @@ namespace DOT.Utilities
         {
             if (Input.GetButtonDown("Touch"))
             {
-                Vector3 mousePos = IUtils.GetMouseWorldPosition();
+                Vector3 mousePos = Utils.GetMouseWorldPosition();
                 Debug.Log(mousePos);
             }
         }

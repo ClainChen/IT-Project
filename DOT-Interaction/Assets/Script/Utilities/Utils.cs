@@ -6,7 +6,7 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace DOT.Utilities
 {
-    internal interface IUtils
+    public class Utils
     {
         /// <summary>
         /// 1. Get the world position and translate it to screen position (needs z-axis coordinate)
