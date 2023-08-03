@@ -21,3 +21,14 @@ The following functions are implemented:
 6. When the mouse button is raised, the line disappears
 
 The related functions of touch screen have not been implemented, and the plan is to implement and complete the test within a week.
+
+
+
+### 3/8/2023
+
+The following functions are implemented:
+
+1. Duplicate a new dot matrix
+2. The old matrix will be initialize with occurred lines
+3. Get the user input and show them in screen
+4. Improve some old programs
