@@ -23,15 +23,8 @@ public class PreLoadLine : MonoBehaviour
                 {
                     line.positionCount += 1;
                     line.SetPosition(i, go.transform.position);
-                    Debug.Log("Add dot [" + go.name + "] to the line's position");
                 }
             }
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
