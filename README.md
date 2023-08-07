@@ -32,3 +32,13 @@ The following functions are implemented:
 2. The old matrix will be initialize with occurred lines
 3. Get the user input and show them in screen
 4. Improve some old programs
+
+
+
+### 7/8/2023
+
+The following functions are implemented:
+
+1. The effect of line fading away after finish connection.
+2. Track the history of the connections. (Now set to 6, it can be more)
+3. Check the result of connection. The result will show in history part.
