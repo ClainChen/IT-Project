@@ -923,7 +923,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65a0df4275c2e244fba17b67e00c90ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animateTime: 2
+  animateTime: 1
   targetScale: 250
   offset: 120
 --- !u!1 &1605952111
