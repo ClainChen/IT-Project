@@ -6,42 +6,46 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-public class TestLine : MonoBehaviour
+namespace DOT.Line
 {
-    public LineRenderer line;
-    public float fadeTime = 5.0f;
-    private float going;
-
-    // Start is called before the first frame update
-    void Start()
+    public class TestLine : MonoBehaviour
     {
-        going = fadeTime;
+        public LineRenderer line;
+        public float fadeTime = 5.0f;
+        private float going;
+
+        // Start is called before the first frame update
+        void Start()
+        {
+            going = fadeTime;
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            Gradient gradient = line.colorGradient;
+            GradientAlphaKey[] alphas = line.colorGradient.alphaKeys;
+            if (going > 0)
+            {
+                for (int i = 0; i < gradient.alphaKeys.Length; i++)
+                {
+                    alphas[i] = new GradientAlphaKey(alphas[i].alpha - (Time.deltaTime / fadeTime), alphas[i].time);
+                }
+                gradient.SetKeys(gradient.colorKeys, alphas);
+                going -= Time.deltaTime;
+                line.colorGradient = gradient;
+            }
+            else
+            {
+                for (int i = 0; i < gradient.alphaKeys.Length; i++)
+                {
+                    alphas[i] = new GradientAlphaKey(0.0f, alphas[i].time);
+                }
+                gradient.SetKeys(gradient.colorKeys, alphas);
+                line.colorGradient = gradient;
+            }
+
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        Gradient gradient = line.colorGradient;
-        GradientAlphaKey[] alphas = line.colorGradient.alphaKeys;
-        if (going > 0)
-        {
-            for (int i = 0; i < gradient.alphaKeys.Length; i++)
-            {
-                alphas[i] = new GradientAlphaKey(alphas[i].alpha - (Time.deltaTime / fadeTime), alphas[i].time);
-            }
-            gradient.SetKeys(gradient.colorKeys, alphas);
-            going -= Time.deltaTime;
-            line.colorGradient = gradient;
-        }
-        else
-        {
-            for (int i = 0; i < gradient.alphaKeys.Length; i++)
-            {
-                alphas[i] = new GradientAlphaKey(0.0f, alphas[i].time);
-            }
-            gradient.SetKeys(gradient.colorKeys, alphas);
-            line.colorGradient = gradient;
-        }
-        
-    }
 }

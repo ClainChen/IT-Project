@@ -5,26 +5,31 @@ using System.Linq;
 using UnityEngine;
 using DOT.Utilities;
 
-public class PreLoadLine : MonoBehaviour
+namespace DOT.Line
 {
-    [SerializeField] private LineRenderer line;
-
-    // Start is called before the first frame update
-    void Start()
+    public class PreLoadLine : MonoBehaviour
     {
-        Instantiate(line, Vector3.zero, Quaternion.identity);
-        line.positionCount = 0;
-        List<GameObject> dotList = GameObject.FindGameObjectsWithTag("Matrix1").ToList();
-        for (int i = 0; i < Constants.PRE_LOAD_DOTS.Length; i++)
+        private GameObject line;
+
+        // Start is called before the first frame update
+        void Start()
         {
-            foreach (GameObject go in dotList)
+            line = GameObject.Find("LineLeft");
+            LineRenderer lr = line.GetComponent<LineRenderer>();
+            lr.positionCount = 0;
+            List<GameObject> dotList = GameObject.FindGameObjectsWithTag("Matrix1").ToList();
+            for (int i = 0; i < Constants.PRE_LOAD_DOTS.Length; i++)
             {
-                if (go.name.EndsWith(Constants.PRE_LOAD_DOTS[i]))
+                foreach (GameObject go in dotList)
                 {
-                    line.positionCount += 1;
-                    line.SetPosition(i, go.transform.position);
+                    if (go.name.EndsWith(Constants.PRE_LOAD_DOTS[i]))
+                    {
+                        lr.positionCount += 1;
+                        lr.SetPosition(i, go.transform.position);
+                    }
                 }
             }
         }
     }
+
 }

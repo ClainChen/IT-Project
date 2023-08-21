@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Matrix1
   - Matrix2
+  - Text
+  - Canvas
   layers:
   - Default
   - TransparentFX

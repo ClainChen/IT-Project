@@ -17,11 +17,13 @@ namespace DOT.Line
     public class LineRendererController : MonoBehaviour
     {
         // Pre-initialize 预初始化组件
-        [SerializeField] private LineRenderer line;
-        [SerializeField] private GameObject region;
+        private GameObject line;
+        private LineRenderer lr;
+        private GameObject region;
 
         // Check the state of Operation 操作条件
         private bool lineIsOn = false;
+        public bool isActivate = false;
 
         // The fading related variables 淡出相关变量
         private bool lineIsFading = false;
@@ -45,47 +47,54 @@ namespace DOT.Line
         private int numTouchedDots = 0;
         private ConnectTextController text;
 
-        
+        public void SetActivate(bool activate)
+        {
+            isActivate = activate;
+        }
 
         // Start is called before the first frame update
         void Start()
         {
+            line = GameObject.Find("LineRight");
+            lr = line.GetComponent<LineRenderer>();
+            region = GameObject.Find("RegionRight");
             text = GetComponent<ConnectTextController>();
-            Instantiate(line, Vector3.zero, Quaternion.identity);
-            Debug.Log("The line is at: " + line.gameObject.transform.position);
             // CloseBackgroundRegion();
             dotList = GameObject.FindGameObjectsWithTag("Matrix2").ToList();
-            Debug.Log(dotList);
 
             fadeRate = Time.deltaTime / fadeTime;
-            alphaKeys = line.colorGradient.alphaKeys;
-            gradient = line.colorGradient;
+            alphaKeys = lr.colorGradient.alphaKeys;
+            gradient = lr.colorGradient;
 
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (!lineIsFading)
+            if (isActivate)
             {
-                if (!lineIsOn && Input.GetButtonDown("Touch"))
+                if (!lineIsFading)
                 {
-                    OnTouch();
+                    if (!lineIsOn && Input.GetButtonDown("Touch"))
+                    {
+                        OnTouch();
+                    }
+                    if (lineIsOn && Input.GetButtonUp("Touch"))
+                    {
+                        EndTouch();
+                    }
+                    if (lineIsOn && Input.GetButton("Touch"))
+                    {
+                        Touching();
+                    }
                 }
-                if (lineIsOn && Input.GetButtonUp("Touch"))
-                {
-                    EndTouch();
-                }
-                if (lineIsOn && Input.GetButton("Touch"))
-                {
-                    Touching();
-                }
-            }
 
-            if (lineIsFading)
-            {
-                FadeLine();
+                if (lineIsFading)
+                {
+                    FadeLine();
+                }
             }
+            
         }
 
         // 鼠标左键按下后的行为
@@ -98,8 +107,8 @@ namespace DOT.Line
             if (!startPosition.Equals(Vector3.negativeInfinity))
             {
                 lineIsOn = true;
-                line.positionCount = 1;
-                line.SetPosition(0, startPosition);
+                lr.positionCount = 1;
+                lr.SetPosition(0, startPosition);
             }
 
         }
@@ -112,12 +121,13 @@ namespace DOT.Line
             remainDots.Clear();
             text.ResetCoordinates();
             numTouchedDots = 0;
+            lr.positionCount--;
 
             // Line Fade Behaviour pre-settings
             fadingTime = fadeTime;
             lineIsFading = true;
-            alphaKeys = line.colorGradient.alphaKeys;
-            gradient = line.colorGradient;
+            alphaKeys = lr.colorGradient.alphaKeys;
+            gradient = lr.colorGradient;
         }
 
         // 保持鼠标左键按下时的行为
@@ -130,8 +140,8 @@ namespace DOT.Line
                 Bounds bounds = dot.GetComponent<CircleCollider2D>().bounds;
                 if (bounds.Contains(mousePosition))
                 {
-                    line.positionCount = numTouchedDots + 1;
-                    line.SetPosition(numTouchedDots, dot.transform.position);
+                    lr.positionCount = numTouchedDots + 1;
+                    lr.SetPosition(numTouchedDots, dot.transform.position);
                     remainDots.Remove(dot);
                     touchingDots.Add(dot);
                     text.AddCoordinates(dot.name.Substring(7));
@@ -140,8 +150,8 @@ namespace DOT.Line
                 }
             }
             // Debug.Log(mousePosition);
-            line.positionCount = numTouchedDots + 1;
-            line.SetPosition(numTouchedDots, mousePosition);
+            lr.positionCount = numTouchedDots + 1;
+            lr.SetPosition(numTouchedDots, mousePosition);
 
         }
 
@@ -206,7 +216,7 @@ namespace DOT.Line
             else
             {
                 fadingTime = 0;
-                line.positionCount = 0;
+                lr.positionCount = 0;
                 SetLineAlpha(FadingPattern.Zero);
                 lineIsFading = false;
             }
@@ -230,7 +240,7 @@ namespace DOT.Line
                 alphaKeys[i] = new GradientAlphaKey(nextAlpha, alphaKeys[i].time);
             }
             gradient.SetKeys(gradient.colorKeys, alphaKeys);
-            line.colorGradient = gradient;
+            lr.colorGradient = gradient;
         }
     }
 

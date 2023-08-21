@@ -3,17 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Tester : MonoBehaviour
+namespace DOT.Utilities
 {
-    private List<GameObject> dotList;
-
-    // Start is called before the first frame update
-    void Start()
+    public class Tester : MonoBehaviour
     {
-        /*dotList = GameObject.FindGameObjectsWithTag("Matrix1").ToList();
-        foreach (GameObject go in dotList)
+        private List<GameObject> dotList;
+
+        // Start is called before the first frame update
+        void Start()
         {
-            Debug.Log(go.name);
-        }*/
+            /*dotList = GameObject.FindGameObjectsWithTag("Matrix1").ToList();
+            foreach (GameObject go in dotList)
+            {
+                Debug.Log(go.name);
+            }*/
+        }
     }
+
 }
