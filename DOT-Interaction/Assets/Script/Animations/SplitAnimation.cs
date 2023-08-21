@@ -12,6 +12,7 @@ namespace DOT.Animations
         private GameObject leftMatrix;
         private GameObject rightMatrix;
         private LineRendererController interaction;
+        private DotBubbleAnimation dotAnimation;
         private GameObject leftLine;
         private LineRenderer lr;
 
@@ -23,6 +24,8 @@ namespace DOT.Animations
         private float moveFrame;
         private float shrinkRate;
 
+        private bool startAnimation = false;
+
 
         // Start is called before the first frame update
         void Start()
@@ -32,6 +35,7 @@ namespace DOT.Animations
             leftLine = GameObject.Find("LineLeft");
             lr = leftLine.GetComponent<LineRenderer>();
             interaction = GetComponent<LineRendererController>();
+            dotAnimation = GetComponent<DotBubbleAnimation>();
 
             float targetXCoord = ((float)Screen.width / 4) + offset;
             moveFrame = ((targetXCoord) / animateTime) * Time.fixedDeltaTime;
@@ -42,7 +46,6 @@ namespace DOT.Animations
             Debug.Log(moveFrame / Time.fixedDeltaTime);
             Debug.Log(shrinkRate / Time.fixedDeltaTime);
             
-
         }
 
         // Update is called once per frame
@@ -62,6 +65,7 @@ namespace DOT.Animations
             {
                 // animateTime = 0;
                 interaction.SetActivate(true);
+                dotAnimation.SetActivate(true);
                 leftMatrix.transform.localScale = new Vector3(targetScale, targetScale, targetScale);
                 leftMatrix.transform.position = new Vector3((- (float)Screen.width / 4) - offset, 0, 0);
                 rightMatrix.SetActive(true);
@@ -81,6 +85,11 @@ namespace DOT.Animations
                     }
                 }
             }
+        }
+
+        public void StartAnimation()
+        {
+            startAnimation = true;
         }
     }
 
