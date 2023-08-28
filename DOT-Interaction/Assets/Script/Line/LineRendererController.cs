@@ -1,15 +1,8 @@
-using System;
-using System.Collections;
+using DOT.UI;
+using DOT.Utilities;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
-using DOT.UI;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem.EnhancedTouch;
-using DOT.Utilities;
-using UnityEngine.InputSystem;
-using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
 
 namespace DOT.Line
@@ -52,16 +45,19 @@ namespace DOT.Line
             isActivate = activate;
         }
 
-        // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
-            line = GameObject.Find("LineRight");
+            line = ObjectGetter.lineRight;
             lr = line.GetComponent<LineRenderer>();
-            region = GameObject.Find("RegionRight");
+            region = ObjectGetter.regionRight;
             text = GetComponent<ConnectTextController>();
             // CloseBackgroundRegion();
             dotList = GameObject.FindGameObjectsWithTag("Matrix2").ToList();
+        }
 
+        // Start is called before the first frame update
+        void Start()
+        {
             fadeRate = Time.deltaTime / fadeTime;
             alphaKeys = lr.colorGradient.alphaKeys;
             gradient = lr.colorGradient;
@@ -204,7 +200,7 @@ namespace DOT.Line
         }
 
         // 线的淡出
-        // Fade out the line
+        // Fade out the lr
         void FadeLine()
         {
             Debug.Log("Line is Fading!!");
@@ -224,7 +220,7 @@ namespace DOT.Line
         }
 
         // 设置线的透明度
-        // Set all of the alpha values of the line
+        // Set all of the alpha values of the lr
         void SetLineAlpha(FadingPattern pattern)
         {
             float nextAlpha;

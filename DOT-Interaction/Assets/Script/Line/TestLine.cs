@@ -10,7 +10,7 @@ namespace DOT.Line
 {
     public class TestLine : MonoBehaviour
     {
-        public LineRenderer line;
+        public LineRenderer lr;
         public float fadeTime = 5.0f;
         private float going;
 
@@ -23,8 +23,8 @@ namespace DOT.Line
         // Update is called once per frame
         void Update()
         {
-            Gradient gradient = line.colorGradient;
-            GradientAlphaKey[] alphas = line.colorGradient.alphaKeys;
+            Gradient gradient = lr.colorGradient;
+            GradientAlphaKey[] alphas = lr.colorGradient.alphaKeys;
             if (going > 0)
             {
                 for (int i = 0; i < gradient.alphaKeys.Length; i++)
@@ -33,7 +33,7 @@ namespace DOT.Line
                 }
                 gradient.SetKeys(gradient.colorKeys, alphas);
                 going -= Time.deltaTime;
-                line.colorGradient = gradient;
+                lr.colorGradient = gradient;
             }
             else
             {
@@ -42,7 +42,7 @@ namespace DOT.Line
                     alphas[i] = new GradientAlphaKey(0.0f, alphas[i].time);
                 }
                 gradient.SetKeys(gradient.colorKeys, alphas);
-                line.colorGradient = gradient;
+                lr.colorGradient = gradient;
             }
 
         }

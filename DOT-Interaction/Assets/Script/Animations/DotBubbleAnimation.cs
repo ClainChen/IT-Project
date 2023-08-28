@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using DOT.Utilities;
-using UnityEditor.Experimental.GraphView;
-using UnityEngine.Rendering.UI;
+using UnityEngine;
 
 namespace DOT.Animations
 {
@@ -21,9 +17,9 @@ namespace DOT.Animations
         }
 
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
-            rightDots = GameObject.FindGameObjectsWithTag("Matrix2");
+            rightDots = ObjectGetter.dotsRight.ToArray();
             initialDotScales = rightDots[0].transform.localScale;
         }
 
