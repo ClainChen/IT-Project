@@ -8,15 +8,20 @@ namespace DOT.Utilities
     public class Tester : MonoBehaviour
     {
         private List<GameObject> dotList;
+        public bool activateTest = false;
 
         // Start is called before the first frame update
         void Start()
         {
-            /*dotList = GameObject.FindGameObjectsWithTag("Matrix1").ToList();
-            foreach (GameObject go in dotList)
+            if (activateTest)
             {
-                Debug.Log(go.name);
-            }*/
+                dotList = GameObject.FindGameObjectsWithTag("Matrix1").ToList();
+                foreach (GameObject go in dotList)
+                {
+                    Debug.Log(go.name);
+                }
+            }
+
         }
     }
 

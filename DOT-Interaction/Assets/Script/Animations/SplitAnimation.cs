@@ -4,6 +4,7 @@ using System.Linq;
 using DOT.Line;
 using DOT.Utilities;
 using UnityEngine;
+using DOT;
 
 namespace DOT.Animations
 {
@@ -12,6 +13,7 @@ namespace DOT.Animations
         private GameObject leftMatrix;
         private GameObject rightMatrix;
         private LineRendererController interaction;
+        private DotBubbleAnimation dotAnimation;
         private GameObject leftLine;
         private LineRenderer lr;
 
@@ -23,16 +25,23 @@ namespace DOT.Animations
         private float moveFrame;
         private float shrinkRate;
 
+        private bool startAnimation = false;
+
 
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
-            leftMatrix = GameObject.Find("Left");
-            rightMatrix = GameObject.Find("Right");
-            leftLine = GameObject.Find("LineLeft");
+            leftMatrix = ObjectGetter.matrixLeft;
+            rightMatrix = ObjectGetter.matrixRight;
+            leftLine = ObjectGetter.lineLeft;
             lr = leftLine.GetComponent<LineRenderer>();
             interaction = GetComponent<LineRendererController>();
+            dotAnimation = GetComponent<DotBubbleAnimation>();
 
+        }
+
+        void Start()
+        {
             float targetXCoord = ((float)Screen.width / 4) + offset;
             moveFrame = ((targetXCoord) / animateTime) * Time.fixedDeltaTime;
             shrinkRate = ((300 - targetScale) / animateTime) * Time.fixedDeltaTime;
@@ -41,8 +50,7 @@ namespace DOT.Animations
             rightMatrix.transform.localScale = new Vector3(targetScale, targetScale, targetScale);
             Debug.Log(moveFrame / Time.fixedDeltaTime);
             Debug.Log(shrinkRate / Time.fixedDeltaTime);
-            
-
+            rightMatrix.SetActive(false);
         }
 
         // Update is called once per frame
@@ -50,7 +58,6 @@ namespace DOT.Animations
         {
             if (animateTime > 0)
             {
-                rightMatrix.SetActive(false);
                 leftMatrix.transform.Translate(-moveFrame,0,0);
                 Vector3 scale = leftMatrix.transform.localScale;
                 leftMatrix.transform.localScale = scale - new Vector3(shrinkRate, shrinkRate, shrinkRate);
@@ -62,6 +69,7 @@ namespace DOT.Animations
             {
                 // animateTime = 0;
                 interaction.SetActivate(true);
+                dotAnimation.SetActivate(true);
                 leftMatrix.transform.localScale = new Vector3(targetScale, targetScale, targetScale);
                 leftMatrix.transform.position = new Vector3((- (float)Screen.width / 4) - offset, 0, 0);
                 rightMatrix.SetActive(true);
@@ -70,7 +78,7 @@ namespace DOT.Animations
 
         void UpdateLeftLineRender()
         {
-            List<GameObject> dotList = GameObject.FindGameObjectsWithTag("Matrix1").ToList();
+            List<GameObject> dotList = ObjectGetter.dotsLeft;
             for (int i = 0; i < Constants.PRE_LOAD_DOTS.Length; i++)
             {
                 foreach (GameObject go in dotList)
@@ -81,6 +89,11 @@ namespace DOT.Animations
                     }
                 }
             }
+        }
+
+        public void StartAnimation()
+        {
+            startAnimation = true;
         }
     }
 

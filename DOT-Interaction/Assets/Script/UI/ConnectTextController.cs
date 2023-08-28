@@ -12,16 +12,18 @@ namespace DOT.UI
 {
     public class ConnectTextController : MonoBehaviour
     {
-        [SerializeField] private GameObject tmpObjectBottom;
-        [SerializeField] private GameObject tmpObjectTop;
+        private GameObject tmpObjectBottom;
+        private GameObject tmpObjectTop;
         private TextMeshProUGUI bottomTexts;
         private TextMeshProUGUI topTexts;
         private List<String> coordinates = new List<String>();
         private List<List<String>> coordinatesHistory = new List<List<String>>();
         private List<String> resultHistory = new List<String>();
 
-        void Start()
+        void Awake()
         {
+            tmpObjectBottom = GameObject.Find("Text Bottom");
+            tmpObjectTop = GameObject.Find("Text Top");
             if (tmpObjectBottom.TryGetComponent<TextMeshProUGUI>(out TextMeshProUGUI tmpb))
             {
                 bottomTexts = tmpb;
