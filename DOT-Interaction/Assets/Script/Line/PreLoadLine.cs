@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using DOT.Utilities;
+using DOT;
 
 namespace DOT.Line
 {
@@ -11,13 +12,17 @@ namespace DOT.Line
     {
         private GameObject line;
 
+        void Awake()
+        {
+            line = ObjectGetter.lineLeft;
+        }
+
         // Start is called before the first frame update
         void Start()
         {
-            line = GameObject.Find("LineLeft");
             LineRenderer lr = line.GetComponent<LineRenderer>();
             lr.positionCount = 0;
-            List<GameObject> dotList = GameObject.FindGameObjectsWithTag("Matrix1").ToList();
+            List<GameObject> dotList = ObjectGetter.dotsLeft;
             for (int i = 0; i < Constants.PRE_LOAD_DOTS.Length; i++)
             {
                 foreach (GameObject go in dotList)
