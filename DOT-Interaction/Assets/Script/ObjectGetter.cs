@@ -34,7 +34,7 @@ namespace DOT
             dotsLeft = GameObject.FindGameObjectsWithTag("Matrix1").ToList();
             dotsRight = GameObject.FindGameObjectsWithTag("Matrix2").ToList();
 
-            Debug.Log("Here!");
+            Debug.Log(regionRight.transform.position);
         }
     }
 }

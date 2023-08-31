@@ -48,3 +48,18 @@ TagManager:
   - name: UI
     uniqueID: 2020332083
     locked: 0
+  - name: BackGround
+    uniqueID: 3160478473
+    locked: 0
+  - name: Line
+    uniqueID: 3042596617
+    locked: 0
+  - name: Matrix
+    uniqueID: 3812069387
+    locked: 0
+  - name: Log
+    uniqueID: 2316468257
+    locked: 0
+  - name: Button
+    uniqueID: 4005329205
+    locked: 0
