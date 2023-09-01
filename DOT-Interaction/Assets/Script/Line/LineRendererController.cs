@@ -16,14 +16,6 @@ namespace DOT.Line
         private LineRenderer lr;
         private GameObject region;
 
-        // The fading related variables 淡出相关变量
-        private bool lineIsFading = false;
-        [SerializeField] private float fadeTime = 1;
-        private float fadeRate;
-        private float fadingTime;
-        private GradientAlphaKey[] alphaKeys;
-        private Gradient gradient;
-
         private enum FadingPattern
         {
             Decrease,
