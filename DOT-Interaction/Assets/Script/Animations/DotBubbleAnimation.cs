@@ -8,16 +8,9 @@ namespace DOT.Animations
         private GameObject[] rightDots;
         private Vector3 initialDotScales;
         [Range(1.0f, 2.0f)] [SerializeField] private float scale;
-        [SerializeField] private float animateDuration = 0.1f;
-        [SerializeField] private bool isActivate = false;
-
-        public void SetActivate(bool activate)
-        {
-            isActivate = activate;
-        }
 
         // Start is called before the first frame update
-        void Awake()
+        void Start()
         {
             rightDots = ObjectGetter.dotsRight.ToArray();
             initialDotScales = rightDots[0].transform.localScale;
@@ -26,10 +19,7 @@ namespace DOT.Animations
         // Update is called once per frame
         void Update()
         {
-            if (isActivate)
-            {
-                DotAnimation();
-            }
+            DotAnimation();
         }
 
         void DotAnimation()
@@ -49,9 +39,7 @@ namespace DOT.Animations
 
         bool MouseInDot(CircleCollider2D dot)
         {
-            Bounds dotBound = dot.bounds;
-            Vector3 mousePosition = Utils.GetMouseWorldPosition();
-            return dotBound.Contains(mousePosition);
+            return dot.bounds.Contains(Utils.GetMouseWorldPosition());
         }
     }
 

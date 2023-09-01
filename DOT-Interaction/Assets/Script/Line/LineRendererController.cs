@@ -1,7 +1,9 @@
+using System;
 using DOT.UI;
 using DOT.Utilities;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 
@@ -13,18 +15,6 @@ namespace DOT.Line
         private GameObject line;
         private LineRenderer lr;
         private GameObject region;
-
-        // Check the state of Operation 操作条件
-        private bool lineIsOn = false;
-        public bool isActivate = false;
-
-        // The fading related variables 淡出相关变量
-        private bool lineIsFading = false;
-        [SerializeField] private float fadeTime = 1;
-        private float fadeRate;
-        private float fadingTime;
-        private GradientAlphaKey[] alphaKeys;
-        private Gradient gradient;
 
         private enum FadingPattern
         {
@@ -40,71 +30,50 @@ namespace DOT.Line
         private int numTouchedDots = 0;
         private ConnectTextController text;
 
-        public void SetActivate(bool activate)
-        {
-            isActivate = activate;
-        }
+        public TextMeshProUGUI t;
 
-        void Awake()
+        // Start is called before the first frame update
+        void Start()
         {
             line = ObjectGetter.lineRight;
             lr = line.GetComponent<LineRenderer>();
             region = ObjectGetter.regionRight;
             text = GetComponent<ConnectTextController>();
-            // CloseBackgroundRegion();
             dotList = GameObject.FindGameObjectsWithTag("Matrix2").ToList();
-        }
 
-        // Start is called before the first frame update
-        void Start()
-        {
-            fadeRate = Time.deltaTime / fadeTime;
-            alphaKeys = lr.colorGradient.alphaKeys;
-            gradient = lr.colorGradient;
-
+            Debug.Log(lr.transform.parent.gameObject);
+            Debug.Log(lr.transform.parent.localPosition);
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (isActivate)
+            if (Input.GetButtonDown("Touch"))
             {
-                if (!lineIsFading)
-                {
-                    if (!lineIsOn && Input.GetButtonDown("Touch"))
-                    {
-                        OnTouch();
-                    }
-                    if (lineIsOn && Input.GetButtonUp("Touch"))
-                    {
-                        EndTouch();
-                    }
-                    if (lineIsOn && Input.GetButton("Touch"))
-                    {
-                        Touching();
-                    }
-                }
-
-                if (lineIsFading)
-                {
-                    FadeLine();
-                }
+                OnTouch();
             }
-            
+            if (Input.GetButtonUp("Touch"))
+            {
+                EndTouch();
+            }
+            if (Input.GetButton("Touch"))
+            {
+                Touching();
+            }
+
         }
 
         // 鼠标左键按下后的行为
         // Actions after press down the left-mouse button
         void OnTouch()
         {
-            SetLineAlpha(FadingPattern.One);
             Vector3 mousePosition = Utils.GetMouseWorldPosition();
             Vector3 startPosition = InRegion(mousePosition);
             if (!startPosition.Equals(Vector3.negativeInfinity))
             {
-                lineIsOn = true;
                 lr.positionCount = 1;
                 lr.SetPosition(0, startPosition);
+                CancelInvoke("EraseLine");
             }
 
         }
@@ -113,17 +82,11 @@ namespace DOT.Line
         // Actions after lift up the left-mouse button
         void EndTouch()
         {
-            lineIsOn = false;
             remainDots.Clear();
             text.ResetCoordinates();
             numTouchedDots = 0;
             lr.positionCount--;
-
-            // Line Fade Behaviour pre-settings
-            fadingTime = fadeTime;
-            lineIsFading = true;
-            alphaKeys = lr.colorGradient.alphaKeys;
-            gradient = lr.colorGradient;
+            Invoke("EraseLine", 5f);
         }
 
         // 保持鼠标左键按下时的行为
@@ -131,23 +94,27 @@ namespace DOT.Line
         void Touching()
         {
             Vector3 mousePosition = Utils.GetMouseWorldPosition();
+
             foreach (GameObject dot in remainDots)
             {
                 Bounds bounds = dot.GetComponent<CircleCollider2D>().bounds;
                 if (bounds.Contains(mousePosition))
                 {
                     lr.positionCount = numTouchedDots + 1;
-                    lr.SetPosition(numTouchedDots, dot.transform.position);
+                    lr.SetPosition(numTouchedDots,
+                        dot.transform.localPosition * dot.transform.parent.localScale.x);
                     remainDots.Remove(dot);
                     touchingDots.Add(dot);
                     text.AddCoordinates(dot.name.Substring(7));
                     numTouchedDots++;
+                    Debug.Log("Add Dot!");
                     break;
                 }
             }
-            // Debug.Log(mousePosition);
+
             lr.positionCount = numTouchedDots + 1;
-            lr.SetPosition(numTouchedDots, mousePosition);
+            Vector3 mousePos = Utils.GetMouseScreenPosition();
+            lr.SetPosition(numTouchedDots, mousePos - lr.transform.parent.localPosition);
 
         }
 
@@ -158,13 +125,12 @@ namespace DOT.Line
             Bounds bounds = region.GetComponent<BoxCollider2D>().bounds;
             if (bounds.Contains(mousePosition))
             {
+                Debug.Log("Here!");
                 foreach (GameObject dot in dotList)
                 {
                     bounds = dot.GetComponent<CircleCollider2D>().bounds;
                     if (bounds.Contains(mousePosition))
                     {
-                        Debug.Log(bounds);
-                        Debug.Log(dot.transform.position);
                         foreach (GameObject d in dotList)
                         {
                             remainDots.Add(d);
@@ -173,70 +139,16 @@ namespace DOT.Line
                         touchingDots.Add(dot);
                         text.AddCoordinates(dot.name.Substring(7));
                         numTouchedDots += 1;
-                        return dot.transform.position;
+                        return dot.transform.localPosition * dot.transform.parent.localScale.x;
                     }
                 }
             }
             return Vector3.negativeInfinity;
         }
 
-        // 区域背景关闭
-        // Close the region background
-        void CloseBackgroundRegion()
+        void EraseLine()
         {
-            if (region.TryGetComponent(out SpriteRenderer render))
-            {
-                Color c = render.color;
-                render.color = new Color(c.r, c.g, c.b, 0);
-            }
-            else
-            {
-                Debug.Log("Didn't found sprite renderer!");
-            }
-            if (region.TryGetComponent(out Collider2D c2d))
-            {
-                Debug.Log(region.GetComponent<Collider2D>().bounds);
-            }
-        }
-
-        // 线的淡出
-        // Fade out the lr
-        void FadeLine()
-        {
-            Debug.Log("Line is Fading!!");
-            if (fadingTime > 0)
-            {
-                fadingTime -= Time.deltaTime;
-                SetLineAlpha(FadingPattern.Decrease);
-            }
-            else
-            {
-                fadingTime = 0;
-                lr.positionCount = 0;
-                SetLineAlpha(FadingPattern.Zero);
-                lineIsFading = false;
-            }
-            
-        }
-
-        // 设置线的透明度
-        // Set all of the alpha values of the lr
-        void SetLineAlpha(FadingPattern pattern)
-        {
-            float nextAlpha;
-            switch (pattern)
-            {
-                case FadingPattern.Decrease: nextAlpha = alphaKeys[0].alpha - fadeRate; break;
-                case FadingPattern.One: nextAlpha = 1.0f; break;
-                case FadingPattern.Zero: nextAlpha = 0.0f; break;
-                default: nextAlpha = 1.0f; break;
-            }
-            for (int i = 0; i < alphaKeys.Length; i++)
-            {
-                alphaKeys[i] = new GradientAlphaKey(nextAlpha, alphaKeys[i].time);
-            }
-            gradient.SetKeys(gradient.colorKeys, alphaKeys);
-            lr.colorGradient = gradient;
+            lr.positionCount = 0;
         }
     }
 
