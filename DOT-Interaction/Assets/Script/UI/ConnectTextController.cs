@@ -20,7 +20,7 @@ namespace DOT.UI
         private List<List<String>> coordinatesHistory = new List<List<String>>();
         private List<String> resultHistory = new List<String>();
 
-        void Awake()
+        void Start()
         {
             tmpObjectBottom = GameObject.Find("Text Bottom");
             tmpObjectTop = GameObject.Find("Text Top");
