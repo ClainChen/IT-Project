@@ -1,5 +1,4 @@
 using System;
-using DOT.UI;
 using DOT.Utilities;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,21 +15,11 @@ namespace DOT.Line
         private LineRenderer lr;
         private GameObject region;
 
-        private enum FadingPattern
-        {
-            Decrease,
-            Zero,
-            One
-        };
-
         // Dot determinations (Record) related variables 连接记录相关变量
         private List<GameObject> dotList;
         private List<GameObject> remainDots = new List<GameObject>();
         private List<GameObject> touchingDots = new List<GameObject>();
         private int numTouchedDots = 0;
-        private ConnectTextController text;
-
-        public TextMeshProUGUI t;
 
         // Start is called before the first frame update
         void Start()
@@ -38,8 +27,7 @@ namespace DOT.Line
             line = ObjectGetter.lineRight;
             lr = line.GetComponent<LineRenderer>();
             region = ObjectGetter.regionRight;
-            text = GetComponent<ConnectTextController>();
-            dotList = GameObject.FindGameObjectsWithTag("Matrix2").ToList();
+            dotList = ObjectGetter.dotsRight;
 
             Debug.Log(lr.transform.parent.gameObject);
             Debug.Log(lr.transform.parent.localPosition);
@@ -83,7 +71,6 @@ namespace DOT.Line
         void EndTouch()
         {
             remainDots.Clear();
-            text.ResetCoordinates();
             numTouchedDots = 0;
             lr.positionCount--;
             Invoke("EraseLine", 5f);
@@ -105,9 +92,7 @@ namespace DOT.Line
                         dot.transform.localPosition * dot.transform.parent.localScale.x);
                     remainDots.Remove(dot);
                     touchingDots.Add(dot);
-                    text.AddCoordinates(dot.name.Substring(7));
                     numTouchedDots++;
-                    Debug.Log("Add Dot!");
                     break;
                 }
             }
@@ -137,7 +122,6 @@ namespace DOT.Line
                         }
                         remainDots.Remove(dot);
                         touchingDots.Add(dot);
-                        text.AddCoordinates(dot.name.Substring(7));
                         numTouchedDots += 1;
                         return dot.transform.localPosition * dot.transform.parent.localScale.x;
                     }
