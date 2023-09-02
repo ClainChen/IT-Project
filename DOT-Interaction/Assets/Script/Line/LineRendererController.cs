@@ -88,8 +88,7 @@ namespace DOT.Line
                 if (bounds.Contains(mousePosition))
                 {
                     lr.positionCount = numTouchedDots + 1;
-                    lr.SetPosition(numTouchedDots,
-                        dot.transform.localPosition * dot.transform.parent.localScale.x);
+                    lr.SetPosition(numTouchedDots, dot.transform.position);
                     remainDots.Remove(dot);
                     touchingDots.Add(dot);
                     numTouchedDots++;
@@ -99,7 +98,8 @@ namespace DOT.Line
 
             lr.positionCount = numTouchedDots + 1;
             Vector3 mousePos = Utils.GetMouseScreenPosition();
-            lr.SetPosition(numTouchedDots, mousePos - lr.transform.parent.localPosition);
+            Vector3 relativePos = mousePosition - lr.transform.parent.position;
+            lr.SetPosition(numTouchedDots, mousePosition);
 
         }
 
@@ -123,7 +123,7 @@ namespace DOT.Line
                         remainDots.Remove(dot);
                         touchingDots.Add(dot);
                         numTouchedDots += 1;
-                        return dot.transform.localPosition * dot.transform.parent.localScale.x;
+                        return dot.transform.position;
                     }
                 }
             }

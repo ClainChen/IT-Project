@@ -5,10 +5,14 @@ using DOT.Utilities;
 using TMPro;
 using UnityEngine;
 
-public class ScreenSizeDetector : MonoBehaviour
+public class LocationDetector : MonoBehaviour
 {
     public TextMeshProUGUI tmp_screenSize;
     public TextMeshProUGUI tmp_mousePosition;
+    public TextMeshProUGUI tmp_objectPosition;
+
+    public GameObject MatrixRight;
+    public GameObject LeftUpDot;
 
     // Update is called once per frame
     void Update()
@@ -20,5 +24,10 @@ public class ScreenSizeDetector : MonoBehaviour
         s += "\nMouse Screen Position: " + Utils.GetMouseScreenPosition();
         s += "\nInput Mouse Position: " + Input.mousePosition;
         tmp_mousePosition.text = s;
+
+        s = "Matrix Position: \n" + MatrixRight.transform.position;
+        s += "\n Left Up Dot Position: \n" + LeftUpDot.transform.position;
+        tmp_objectPosition.text = s;
+
     }
 }
