@@ -540,7 +540,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &462548490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3329,6 +3329,18 @@ PrefabInstance:
     - target: {fileID: 5454322408798493864, guid: 5f4e9b66b0007a54bbb40a6d3f784988, type: 3}
       propertyPath: m_Name
       value: PlayPageUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 7588559762981497966, guid: 5f4e9b66b0007a54bbb40a6d3f784988, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7588559762981497966, guid: 5f4e9b66b0007a54bbb40a6d3f784988, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7588559762981497966, guid: 5f4e9b66b0007a54bbb40a6d3f784988, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8078423139590986898, guid: 5f4e9b66b0007a54bbb40a6d3f784988, type: 3}
       propertyPath: m_ScaleFactor
