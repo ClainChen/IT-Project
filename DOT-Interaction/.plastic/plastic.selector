@@ -1,4 +1,0 @@
-repository "DOT Interaction@clain_c@cloud.cn"
-  path "/"
-    br "/main"
-    co "/main"
