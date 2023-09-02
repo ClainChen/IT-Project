@@ -25,7 +25,7 @@ namespace DOT.Utilities
 
         public static Vector3 GetMouseScreenPosition()
         {
-            Vector3 pos = Input.mousePosition - new Vector3(960f, 540f, 0f);
+            Vector3 pos = Input.mousePosition - new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
             pos.z = 0f;
             return pos;
         }
