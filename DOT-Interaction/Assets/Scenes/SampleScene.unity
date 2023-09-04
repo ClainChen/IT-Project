@@ -540,7 +540,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &462548490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3297,6 +3297,22 @@ PrefabInstance:
     - target: {fileID: 4537042860252362998, guid: 5f4e9b66b0007a54bbb40a6d3f784988, type: 3}
       propertyPath: m_SizeDelta.y
       value: 1080
+      objectReference: {fileID: 0}
+    - target: {fileID: 4537042860252362998, guid: 5f4e9b66b0007a54bbb40a6d3f784988, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4537042860252362998, guid: 5f4e9b66b0007a54bbb40a6d3f784988, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4537042860252362998, guid: 5f4e9b66b0007a54bbb40a6d3f784988, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4537042860252362998, guid: 5f4e9b66b0007a54bbb40a6d3f784988, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5065491052339080833, guid: 5f4e9b66b0007a54bbb40a6d3f784988, type: 3}
       propertyPath: m_Camera
