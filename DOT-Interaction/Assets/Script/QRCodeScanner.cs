@@ -4,17 +4,17 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using ZXing;
-using ZXing.QrCode;
+
 
 public class QRCodeScanner : MonoBehaviour
 {
     private WebCamTexture webCamTexture = null;
     private RawImage imgRenderer = null;
 
-    private float _readGap = 1f;
+    private float _readGap = 1.0f;
     private string QRCodeResult = string.Empty;
 
-    public TextMeshProUGUI textOnGUI;
+    public GameObject PageController;
 
     // Start is called before the first frame update
     void OnEnable()
@@ -22,7 +22,6 @@ public class QRCodeScanner : MonoBehaviour
         if (webCamTexture != null)
         {
             StartCoroutine(ScanQRCode());
-            Debug.Log("Start Scan");
         }
         else
         {
@@ -36,17 +35,53 @@ public class QRCodeScanner : MonoBehaviour
         if (webCamTexture != null && webCamTexture.isPlaying)
         {
             webCamTexture.Stop();
+            StopAllCoroutines();
         }
     }
 
     IEnumerator InitializeCam()
     {
         yield return Application.RequestUserAuthorization(UserAuthorization.WebCam);
+        
         if (Application.HasUserAuthorization(UserAuthorization.WebCam))
         {
-            webCamTexture = new WebCamTexture(250, 280);
+            bool find = false;
+            string cam = "OYT 8M AF USB Camera";
+            string backFacingCamera = String.Empty;
+            WebCamDevice[] devices = WebCamTexture.devices;
+            foreach (var device in devices)
+            {
+                if (device.name == cam)
+                {
+                    find = true;
+                    break;
+                }
+
+                if (!device.isFrontFacing)
+                {
+                    backFacingCamera = device.name;
+                }
+            }
+            
+#if UNITY_EDITOR
+            webCamTexture = find ? new WebCamTexture(cam, 512, 512) : new WebCamTexture(512, 512);
+#else
+            if (!string.IsNullOrEmpty(backFacingCamera))
+            {
+                webCamTexture = new WebCamTexture(backFacingCamera, 512, 512);
+            }
+            else
+            {
+                webCamTexture = new WebCamTexture(512, 512);
+            }
+#endif
             imgRenderer = GetComponent<RawImage>();
             imgRenderer.texture = webCamTexture;
+            webCamTexture.Play();
+            while (webCamTexture.width < 200)
+            {
+                yield return null;
+            }
             StartCoroutine(ScanQRCode());
         }
         else
@@ -57,31 +92,39 @@ public class QRCodeScanner : MonoBehaviour
 
     IEnumerator ScanQRCode()
     {
-        IBarcodeReader reader = new BarcodeReader();
+        BarcodeReader reader = new BarcodeReader();
         webCamTexture.Play();
-        Debug.Log($"{webCamTexture.width}, {webCamTexture.height}");
-        var snap = new Texture2D(250, 280, TextureFormat.ARGB32, false);
-        Debug.Log($"{snap.width}, {snap.height}");
+        Texture tex = imgRenderer.texture;
+        Texture2D tex2d = new Texture2D(tex.width, tex.height, TextureFormat.RGBA32, false);
+        RenderTexture currentRT = RenderTexture.active;
         while (string.IsNullOrEmpty(QRCodeResult))
         {
             try
             {
-                snap.SetPixels32(webCamTexture.GetPixels32());
-                var Result = reader.Decode(snap.GetRawTextureData(), webCamTexture.width, webCamTexture.height, RGBLuminanceSource.BitmapFormat.ARGB32);
+                RenderTexture renderTexture = new RenderTexture(tex.width, tex.height, 32);
+                Graphics.Blit(tex, renderTexture);
+                RenderTexture.active = renderTexture;
+                tex2d.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
+                tex2d.Apply();
+                var Result = reader.Decode(tex2d.GetPixels32(), tex2d.width, tex2d.height);
+                RenderTexture.active = currentRT;
                 if (Result != null)
                 {
                     QRCodeResult = Result.Text;
-                    textOnGUI.text = QRCodeResult;
                     if (!string.IsNullOrEmpty(QRCodeResult))
                     {
                         Debug.Log("DECODED TEXT FROM QR: " + QRCodeResult);
+                        PageController.GetComponent<NameTagsCreater>().CreateButtons(QRCodeResult);
+                        PageController.GetComponent<PageChange>().Scan2Select();
                         break;
                     }
+                    
                 }
                 Debug.Log("No Result!");
+                Destroy(renderTexture);
             }
             catch (Exception ex) { Debug.LogWarning(ex.Message); }
-            yield return null;
+            yield return new WaitForSeconds(_readGap);
         }
         webCamTexture.Stop();
     }

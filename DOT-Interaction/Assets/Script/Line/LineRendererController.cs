@@ -20,7 +20,9 @@ namespace DOT.Line
         private List<GameObject> remainDots = new List<GameObject>();
         private List<GameObject> touchingDots = new List<GameObject>();
         private int numTouchedDots = 0;
-        private bool mouseDown = true;
+        private bool mouseDown = false;
+
+        private bool canPlay = true;
 
         // Start is called before the first frame update
         void Start()
@@ -36,18 +38,22 @@ namespace DOT.Line
         {
             UpdateLine();
 
-            if (Input.GetButtonDown("Touch"))
+            if (canPlay)
             {
-                OnTouch();
+                if (Input.GetButtonDown("Touch"))
+                {
+                    OnTouch();
+                }
+                if (Input.GetButtonUp("Touch"))
+                {
+                    EndTouch();
+                }
+                if (Input.GetButton("Touch"))
+                {
+                    Touching();
+                }
             }
-            if (Input.GetButtonUp("Touch"))
-            {
-                EndTouch();
-            }
-            if (Input.GetButton("Touch"))
-            {
-                Touching();
-            }
+            
             
 
         }
@@ -63,7 +69,6 @@ namespace DOT.Line
             {
                 mouseDown = true;
                 Debug.Log("OnTouch");
-                CancelInvoke("EraseLine");
             }
 
         }
@@ -72,9 +77,14 @@ namespace DOT.Line
         // Actions after lift up the left-mouse button
         void EndTouch()
         {
+            if (touchingDots.Count > 4)
+            {
+                canPlay = false;
+                GetComponent<PlayProcesses>().ActivateButtons();
+
+            }
             mouseDown = false;
             lr.positionCount = numTouchedDots;
-            Invoke("EraseLine", 5f);
         }
 
         // 保持鼠标左键按下时的行为
@@ -124,12 +134,13 @@ namespace DOT.Line
             return false;
         }
 
-        void EraseLine()
+        public void EraseLine()
         {
             numTouchedDots = 0;
             remainDots.Clear();
             touchingDots.Clear();
             lr.positionCount = 0;
+            canPlay = true;
         }
 
         void UpdateLine()
@@ -138,7 +149,6 @@ namespace DOT.Line
             int i = 0;
             if (lr.positionCount > 0)
             {
-                Debug.Log("Touching");
                 foreach (GameObject dot in touchingDots)
                 {
                     lr.SetPosition(i, dot.transform.position);
@@ -151,6 +161,11 @@ namespace DOT.Line
                 lr.positionCount = numTouchedDots + 1;
                 lr.SetPosition(numTouchedDots, Utils.GetMouseWorldPosition());
             }
+        }
+
+        public List<GameObject> GetTouchingLines()
+        {
+            return touchingDots;
         }
     }
 
