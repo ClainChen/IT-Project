@@ -11,10 +11,12 @@ public class QRCodeScanner : MonoBehaviour
     private WebCamTexture webCamTexture = null;
     private RawImage imgRenderer = null;
 
-    private float _readGap = 1.0f;
+    private float _readGap = 0.4f;
     private string QRCodeResult = string.Empty;
 
     public GameObject PageController;
+
+    private int pixels = 512;
 
     // Start is called before the first frame update
     void OnEnable()
@@ -64,15 +66,15 @@ public class QRCodeScanner : MonoBehaviour
             }
             
 #if UNITY_EDITOR
-            webCamTexture = find ? new WebCamTexture(cam, 512, 512) : new WebCamTexture(512, 512);
+            webCamTexture = find ? new WebCamTexture(cam, pixels, pixels) : new WebCamTexture(pixels, pixels);
 #else
             if (!string.IsNullOrEmpty(backFacingCamera))
             {
-                webCamTexture = new WebCamTexture(backFacingCamera, 512, 512);
+                webCamTexture = new WebCamTexture(backFacingCamera, pixels, pixels);
             }
             else
             {
-                webCamTexture = new WebCamTexture(512, 512);
+                webCamTexture = new WebCamTexture(pixels, pixels);
             }
 #endif
             imgRenderer = GetComponent<RawImage>();

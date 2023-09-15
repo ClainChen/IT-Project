@@ -111,6 +111,8 @@ namespace DOT.Line
         // Check whether the mouse is in the region or any dots
         bool InRegion(Vector3 mousePosition)
         {
+            touchingDots.Clear();
+            remainDots.Clear();
             Bounds bounds = region.GetComponent<BoxCollider2D>().bounds;
             if (bounds.Contains(mousePosition))
             {
