@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DOT.Utilities;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ namespace DOT.Line
         public PageChange pageChange;
         public GameObject ButtonRetry;
         public GameObject ButtonNext;
+        public TextMeshProUGUI Title;
 
         private int level = 1;
         private int levelScore = 2;
@@ -72,10 +74,14 @@ namespace DOT.Line
             levelScore = 2;
             level++;
             lineRendererController.EraseLine();
+            Title.text = $"Stage {level}";
             Debug.Log($"Score Now: {customerInfo.Score}");
             if (level == 4)
             {
+                level = 1;
+                Title.text = $"Stage {level}";
                 pageChange.Play2Result();
+                
             }
         }
 
@@ -89,6 +95,11 @@ namespace DOT.Line
         {
             ButtonNext.SetActive(false);
             ButtonRetry.SetActive(false);
+        }
+
+        public int GetLevel()
+        {
+            return level;
         }
     }
 
