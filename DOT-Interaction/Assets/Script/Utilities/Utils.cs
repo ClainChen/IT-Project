@@ -22,5 +22,12 @@ namespace DOT.Utilities
             mousePosOnScreen.z = screenPos.z;
             return Camera.main.ScreenToWorldPoint(mousePosOnScreen);
         }
+
+        public static Vector3 GetMouseScreenPosition()
+        {
+            Vector3 pos = Input.mousePosition - new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
+            pos.z = 0f;
+            return pos;
+        }
     }
 }
