@@ -96,7 +96,11 @@ public class QRCodeScanner : MonoBehaviour
 
     IEnumerator ScanQRCode()
     {
-
+        if (!webCamTexture.isPlaying)
+        {
+            webCamTexture.Play();
+            imgRenderer.texture = webCamTexture;
+        }
         BarcodeReader reader = new BarcodeReader();
         Texture tex = imgRenderer.texture;
         Texture2D tex2d = new Texture2D(tex.width, tex.height, TextureFormat.RGBA32, false);
@@ -119,8 +123,8 @@ public class QRCodeScanner : MonoBehaviour
                     {
                         Debug.Log("DECODED TEXT FROM QR: " + QRCodeResult);
                         PageController.GetComponent<NameTagsCreater>().CreateButtons(QRCodeResult);
-                        // QRCodeResult = string.Empty;
-                        // imgRenderer.texture = new Texture2D(tex.width, tex.height);
+                        QRCodeResult = string.Empty;
+                        imgRenderer.texture = new Texture2D(tex.width, tex.height);
                         PageController.GetComponent<PageChange>().Scan2Select();
                         break;
                     }
