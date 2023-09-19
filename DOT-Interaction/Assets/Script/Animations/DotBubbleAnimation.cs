@@ -33,8 +33,11 @@ namespace DOT.Animations
                 {
                     if (!dot.Equals(currentDot))
                     {
-                        PlaySound.PlayAudio();
-                        currentDot = dot;
+                        if (GetComponent<AudioSource>().enabled)
+                        {
+                            PlaySound.PlayAudio();
+                            currentDot = dot;
+                        }
                     }
                     dot.transform.localScale = initialDotScales * scale;
                 }

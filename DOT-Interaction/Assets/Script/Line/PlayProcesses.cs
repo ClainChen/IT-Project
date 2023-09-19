@@ -56,6 +56,7 @@ namespace DOT.Line
                     {
                         pass = false;
                         Debug.Log("Fail!");
+                        Play2Result();
                         break;
                     }
                 }
@@ -64,6 +65,7 @@ namespace DOT.Line
             {
                 pass = false;
                 Debug.Log("Fail!");
+                Play2Result();
             }
 
             if (pass)
@@ -78,23 +80,30 @@ namespace DOT.Line
             Debug.Log($"Score Now: {customerInfo.Score}");
             if (level == 4)
             {
-                level = 1;
-                Title.text = $"Stage {level}";
-                pageChange.Play2Result();
-                
+                Play2Result();
             }
+        }
+
+        void Play2Result()
+        {
+            level = 1;
+            Title.text = $"Stage {level}";
+            lineRendererController.EraseLine();
+            pageChange.Play2Result();
         }
 
         public void ActivateButtons()
         {
             ButtonNext.SetActive(true);
             ButtonRetry.SetActive(true);
+            GetComponent<AudioSource>().enabled = false;
         }
 
         public void DeactivateButtons()
         {
             ButtonNext.SetActive(false);
             ButtonRetry.SetActive(false);
+            GetComponent<AudioSource>().enabled = true;
         }
 
         public int GetLevel()
