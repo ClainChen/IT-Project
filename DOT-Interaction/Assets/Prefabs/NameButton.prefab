@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 1264076456587057843}
   - component: {fileID: 7664426487164389870}
   - component: {fileID: 4289715740007471844}
+  - component: {fileID: 78105777428403332}
+  - component: {fileID: 3914320101181536007}
   m_Layer: 5
   m_Name: NameButton
   m_TagString: Untagged
@@ -28,7 +30,7 @@ RectTransform:
   m_GameObject: {fileID: 5990459088435174603}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.6, y: 2, z: 1.6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7331828713907753018}
@@ -36,8 +38,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -416, y: 92}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 230, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1264076456587057843
 CanvasRenderer:
@@ -121,9 +123,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6384775938497852253, guid: f7ae9c87d33df194bb46bcc91673744a, type: 3}
-        m_TargetAssemblyTypeName: PageChange, Assembly-CSharp
-        m_MethodName: Select2Menu
+      - m_Target: {fileID: 3914320101181536007}
+        m_TargetAssemblyTypeName: SelectButtonClick, Assembly-CSharp
+        m_MethodName: Click
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -133,6 +135,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &78105777428403332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5990459088435174603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cef9278245452284cb83aca4cc8bc46b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3914320101181536007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5990459088435174603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd8e68c4feb01d5448660234920de918, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8216517071430720743
 GameObject:
   m_ObjectHideFlags: 0
@@ -145,7 +171,7 @@ GameObject:
   - component: {fileID: 6607166920112588865}
   - component: {fileID: 3059633849143095843}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: NameTag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
