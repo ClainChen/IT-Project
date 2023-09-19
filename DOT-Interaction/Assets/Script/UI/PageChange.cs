@@ -36,6 +36,7 @@ public class PageChange : MonoBehaviour
     {
         StartPage.SetActive(false);
         ScanPage.SetActive(true);
+        GetComponent<ClearNameTag>().ClearContent();
     }
 
     public void Scan2Select()
@@ -54,6 +55,22 @@ public class PageChange : MonoBehaviour
     {
         SelectPage.SetActive(false);
         MenuPage.SetActive(true);
+        GetComponent<ClearNameTag>().ClearContent();
+    }
+
+    public void Select2TypeIn()
+    {
+        SelectPage.SetActive(false);
+        TypeInPage.SetActive(true);
+        GetComponent<ClearNameTag>().ClearContent();
+    }
+
+    public void Select2Scan()
+    {
+        SelectPage.SetActive(false);
+        GetComponent<ClearNameTag>().ClearContent();
+        ScanPage.SetActive(true);
+
     }
 
     public void TypeIn2Menu()

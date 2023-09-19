@@ -11,7 +11,6 @@ public class PlaySound : MonoBehaviour
         if (!audioSource.isPlaying)
         {
             audioSource.Play();
-            Debug.Log("Play");
         }
     }
 
@@ -20,7 +19,6 @@ public class PlaySound : MonoBehaviour
         if (audioSource.isPlaying)
         {
             audioSource.Pause();
-            Debug.Log("Pause");
         }
     }
 
@@ -29,7 +27,6 @@ public class PlaySound : MonoBehaviour
         if (audioSource.isPlaying)
         {
             audioSource.Stop();
-            Debug.Log("Stop");
         }
     }
 }
