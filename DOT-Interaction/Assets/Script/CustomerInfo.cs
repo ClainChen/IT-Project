@@ -27,7 +27,19 @@ public class CustomerInfo : MonoBehaviour
     public string ID
     {
         get => id.ToString();
-        set => id = int.Parse(value);
+        set
+        {
+            try
+            {
+                id = int.Parse(value);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Debug.LogException(e);
+            }
+            
+        }
     }
 
     public int Score{ get; set; }

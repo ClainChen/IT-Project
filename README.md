@@ -1,3 +1,16 @@
+## Version 0.-1.4
+
+- Add User Information input interafece
+- Add more UI Pages
+- Complete the PlayPage Logics
+- Check the Game Processes
+- Function to Check whether the line connection is correct
+- QR Cide Scan
+- Full Screen Adaption
+- QR Code Data Collection and Implementation
+
+
+
 ## Version 0.-1.3
 
 - Fix Some Bugs
