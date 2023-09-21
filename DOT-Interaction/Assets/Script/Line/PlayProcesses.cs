@@ -4,6 +4,7 @@ using DOT.Utilities;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 namespace DOT.Line
 {
@@ -21,7 +22,7 @@ namespace DOT.Line
         public void ClickRetry()
         {
             lineRendererController.EraseLine();
-            levelScore = levelScore - 1 < 0 ? 0 : levelScore - 1;
+            levelScore -= 1;
             DeactivateButtons();
         }
 
@@ -57,7 +58,7 @@ namespace DOT.Line
                         pass = false;
                         Debug.Log("Fail!");
                         Play2Result();
-                        break;
+                        return;
                     }
                 }
             }
@@ -66,27 +67,36 @@ namespace DOT.Line
                 pass = false;
                 Debug.Log("Fail!");
                 Play2Result();
+                return;
             }
 
             if (pass)
             {
-                customerInfo.Score += levelScore;
-                Debug.Log("Pass!");
+                Success();
             }
-            levelScore = 2;
-            level++;
-            lineRendererController.EraseLine();
-            Title.text = $"Stage {level}";
-            Debug.Log($"Score Now: {customerInfo.Score}");
+            
             if (level == 4)
             {
                 Play2Result();
             }
         }
 
+        void Success()
+        {
+            customerInfo.Score += levelScore;
+            Debug.Log("Pass!");
+            levelScore = 2;
+            level++;
+            lineRendererController.EraseLine();
+            Title.text = $"Stage {level}";
+            Debug.Log($"Score Now: {customerInfo.Score}");
+            VGController.instance.PlaySound($"EnterS{level}");
+        }
+
         void Play2Result()
         {
             level = 1;
+            levelScore = 2;
             Title.text = $"Stage {level}";
             lineRendererController.EraseLine();
             pageChange.Play2Result();
@@ -95,8 +105,9 @@ namespace DOT.Line
         public void ActivateButtons()
         {
             ButtonNext.SetActive(true);
-            ButtonRetry.SetActive(true);
             GetComponent<AudioSource>().enabled = false;
+            if (levelScore != 2) return;
+            ButtonRetry.SetActive(true);
         }
 
         public void DeactivateButtons()

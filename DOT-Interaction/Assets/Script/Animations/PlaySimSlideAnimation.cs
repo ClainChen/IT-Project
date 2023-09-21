@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DOT.Animations;
+using DOT.Line;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -14,11 +15,11 @@ public class PlaySimSlideAnimation : MonoBehaviour
         if (playState)
         {
             PlayToSim();
-            
         }
         else
         {
             SimToPlay();
+            VGController.instance.StopSound();
         }
     }
     
