@@ -1,5 +1,4 @@
 using System;
-using DOT.UI;
 using DOT.Utilities;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,21 +15,15 @@ namespace DOT.Line
         private LineRenderer lr;
         private GameObject region;
 
-        private enum FadingPattern
-        {
-            Decrease,
-            Zero,
-            One
-        };
-
         // Dot determinations (Record) related variables 连接记录相关变量
         private List<GameObject> dotList;
         private List<GameObject> remainDots = new List<GameObject>();
         private List<GameObject> touchingDots = new List<GameObject>();
         private int numTouchedDots = 0;
-        private ConnectTextController text;
+        private bool mouseDown = false;
 
-        public TextMeshProUGUI t;
+        private bool canPlay = true;
+        public bool isTrying = false;
 
         // Start is called before the first frame update
         void Start()
@@ -38,28 +31,31 @@ namespace DOT.Line
             line = ObjectGetter.lineRight;
             lr = line.GetComponent<LineRenderer>();
             region = ObjectGetter.regionRight;
-            text = GetComponent<ConnectTextController>();
-            dotList = GameObject.FindGameObjectsWithTag("Matrix2").ToList();
-
-            Debug.Log(lr.transform.parent.gameObject);
-            Debug.Log(lr.transform.parent.localPosition);
+            dotList = ObjectGetter.dotsRight;
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetButtonDown("Touch"))
+            UpdateLine();
+
+            if (canPlay)
             {
-                OnTouch();
+                if (Input.GetButtonDown("Touch"))
+                {
+                    OnTouch();
+                }
+                if (Input.GetButtonUp("Touch"))
+                {
+                    EndTouch();
+                }
+                if (Input.GetButton("Touch"))
+                {
+                    Touching();
+                }
             }
-            if (Input.GetButtonUp("Touch"))
-            {
-                EndTouch();
-            }
-            if (Input.GetButton("Touch"))
-            {
-                Touching();
-            }
+            
+            
 
         }
 
@@ -68,12 +64,12 @@ namespace DOT.Line
         void OnTouch()
         {
             Vector3 mousePosition = Utils.GetMouseWorldPosition();
-            Vector3 startPosition = InRegion(mousePosition);
-            if (!startPosition.Equals(Vector3.negativeInfinity))
+            EraseLine();
+            bool inRegion = InRegion(mousePosition);
+            if (inRegion)
             {
-                lr.positionCount = 1;
-                lr.SetPosition(0, startPosition);
-                CancelInvoke("EraseLine");
+                mouseDown = true;
+                Debug.Log("OnTouch");
             }
 
         }
@@ -82,11 +78,14 @@ namespace DOT.Line
         // Actions after lift up the left-mouse button
         void EndTouch()
         {
-            remainDots.Clear();
-            text.ResetCoordinates();
-            numTouchedDots = 0;
-            lr.positionCount--;
-            Invoke("EraseLine", 5f);
+            
+            if (touchingDots.Count > 4 && !isTrying)
+            {
+                canPlay = false;
+                GetComponent<PlayProcesses>().ActivateButtons();
+            }
+            mouseDown = false;
+            lr.positionCount = numTouchedDots;
         }
 
         // 保持鼠标左键按下时的行为
@@ -100,32 +99,24 @@ namespace DOT.Line
                 Bounds bounds = dot.GetComponent<CircleCollider2D>().bounds;
                 if (bounds.Contains(mousePosition))
                 {
-                    lr.positionCount = numTouchedDots + 1;
-                    lr.SetPosition(numTouchedDots,
-                        dot.transform.localPosition * dot.transform.parent.localScale.x);
                     remainDots.Remove(dot);
                     touchingDots.Add(dot);
-                    text.AddCoordinates(dot.name.Substring(7));
                     numTouchedDots++;
-                    Debug.Log("Add Dot!");
                     break;
                 }
             }
-
-            lr.positionCount = numTouchedDots + 1;
-            Vector3 mousePos = Utils.GetMouseScreenPosition();
-            lr.SetPosition(numTouchedDots, mousePos - lr.transform.parent.localPosition);
 
         }
 
         // 确认鼠标是否在区域和某一个点的碰撞范围内
         // Check whether the mouse is in the region or any dots
-        Vector3 InRegion(Vector3 mousePosition)
+        bool InRegion(Vector3 mousePosition)
         {
+            touchingDots.Clear();
+            remainDots.Clear();
             Bounds bounds = region.GetComponent<BoxCollider2D>().bounds;
             if (bounds.Contains(mousePosition))
             {
-                Debug.Log("Here!");
                 foreach (GameObject dot in dotList)
                 {
                     bounds = dot.GetComponent<CircleCollider2D>().bounds;
@@ -137,18 +128,47 @@ namespace DOT.Line
                         }
                         remainDots.Remove(dot);
                         touchingDots.Add(dot);
-                        text.AddCoordinates(dot.name.Substring(7));
-                        numTouchedDots += 1;
-                        return dot.transform.localPosition * dot.transform.parent.localScale.x;
+                        numTouchedDots++;
+                        return true;
                     }
                 }
             }
-            return Vector3.negativeInfinity;
+
+            return false;
         }
 
-        void EraseLine()
+        public void EraseLine()
         {
+            numTouchedDots = 0;
+            remainDots.Clear();
+            touchingDots.Clear();
             lr.positionCount = 0;
+            canPlay = true;
+        }
+
+        void UpdateLine()
+        {
+            lr.positionCount = touchingDots.Count;
+            int i = 0;
+            if (lr.positionCount > 0)
+            {
+                foreach (GameObject dot in touchingDots)
+                {
+                    lr.SetPosition(i, dot.transform.position);
+                    i++;
+                }
+            }
+
+            if (mouseDown)
+            {
+                lr.positionCount = numTouchedDots + 1;
+                lr.SetPosition(numTouchedDots, Utils.GetMouseWorldPosition());
+            }
+        }
+
+        public List<GameObject> GetTouchingLines()
+        {
+            return touchingDots;
         }
     }
 
