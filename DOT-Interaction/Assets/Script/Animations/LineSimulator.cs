@@ -27,7 +27,7 @@ public class LineSimulator : MonoBehaviour
         int i = lr.positionCount - 1;
         currentPosition += direction * speed * Time.deltaTime;
         lr.SetPosition(i, currentPosition);
-        if ((currentDots[i].transform.position - currentPosition).magnitude <= 5.0f)
+        if ((currentDots[i].transform.position - currentPosition).magnitude <= 8.0f)
         {
             if (lr.positionCount == 7)
             {
@@ -75,5 +75,6 @@ public class LineSimulator : MonoBehaviour
 
         isPlaying = true;
         Debug.Log($"Simulation Start, now in level {game.GetLevel()}");
+        VGController.instance.PlaySound($"S{transform.Find("Global Effect").GetComponent<PlayProcesses>().GetLevel()}Sim");
     }
 }

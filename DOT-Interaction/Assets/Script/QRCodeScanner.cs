@@ -130,7 +130,6 @@ public class QRCodeScanner : MonoBehaviour
                     }
                     
                 }
-                Debug.Log("No Result!");
                 Destroy(renderTexture);
             }
             catch (Exception ex) { Debug.LogWarning(ex.Message); }
