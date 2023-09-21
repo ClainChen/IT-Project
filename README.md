@@ -1,44 +1,50 @@
-# IT-Project for 404 ERROR Team
-### 24/07/2023
-- Create the repository
+## Version 0.-1.4
 
-### 1/8/2023
-
-- Update the Unity files, including following directories:
-  - Assest/
-  - Packages/
-  - ProjectSettings/
-  - Check the details in .gitignore
-- Working on the test demo
-- Finish test demo, realize
-
-The following functions are implemented:
-1. Built a simple dot matrix
-2. line is implemented
-3. When the mouse is clicked, it is in the area where a line can be generated
-4. Check if the mouse has passed another point on its way when it was pressed
-5. Realize the function of point adsorption
-6. When the mouse button is raised, the line disappears
-
-The related functions of touch screen have not been implemented, and the plan is to implement and complete the test within a week.
+- Add User Information input interafece
+- Add more UI Pages
+- Complete the PlayPage Logics
+- Check the Game Processes
+- Function to Check whether the line connection is correct
+- QR Cide Scan
+- Full Screen Adaption
+- QR Code Data Collection and Implementation
 
 
 
-### 3/8/2023
+## Version 0.-1.3
 
-The following functions are implemented:
+- Fix Some Bugs
+- Intro Animation when start playing
+- Animation that large the dot when mouse in it’s bound
+- Review the code and improve the basic structure
+- Add Start Game Scene
+- Add Scan Scene
+- Add Name Selection Scene
+- Comment Codes in two languages
+- Implement the intro animation to pop-out the matrixes
+- Fully UI Implementation
+- Fix UI Self Adaption Problems
+  - Now able to fit in most kinds of devices, excepts
+    - Some iPad which has a special width*height ratio
 
-1. Duplicate a new dot matrix
-2. The old matrix will be initialize with occurred lines
-3. Get the user input and show them in screen
-4. Improve some old programs
 
 
+## Version 0.-1.2
 
-### 7/8/2023
+- Create a relative 4*4 Dot Matrix
+- Maintain the matrix and lines in performance part
+- Follow and track the customer’s input, get teh data of connection
+- Add simple UIs which use for track the state of line connection
+- Line will fade away slowly after Mouse Button up
+- Check the reulst after finish the level
 
-The following functions are implemented:
+------
 
-1. The effect of line fading away after finish connection.
-2. Track the history of the connections. (Now set to 6, it can be more)
-3. Check the result of connection. The result will show in history part.
+## Version 0.-1.1
+
+- Create Simple 4*4 Dot Matrix
+- Line’s extension follows the Mouse Movement
+- Restrict line’s spawn area
+- Line automatically attract to the dots
+- The behaviours of Mouse Button down / up
+- Test the validity of Web compatibility

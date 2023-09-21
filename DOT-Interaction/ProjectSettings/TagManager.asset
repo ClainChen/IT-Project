@@ -57,9 +57,21 @@ TagManager:
   - name: Matrix
     uniqueID: 3812069387
     locked: 0
+  - name: SimlatorBackground
+    uniqueID: 4024654887
+    locked: 0
+  - name: LineSimulator
+    uniqueID: 2962711883
+    locked: 0
+  - name: Simulator
+    uniqueID: 4203429867
+    locked: 0
   - name: Log
     uniqueID: 2316468257
     locked: 0
   - name: Button
     uniqueID: 4005329205
+    locked: 0
+  - name: UIOnScreen
+    uniqueID: 3061392437
     locked: 0
