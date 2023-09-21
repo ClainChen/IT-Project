@@ -34,7 +34,7 @@ public class QRCodeScanner : MonoBehaviour
 
     void OnDisable()
     {
-        if (webCamTexture != null && webCamTexture.isPlaying)
+        if (webCamTexture != null)
         {
             webCamTexture.Stop();
             StopAllCoroutines();
@@ -77,6 +77,7 @@ public class QRCodeScanner : MonoBehaviour
                 webCamTexture = new WebCamTexture(pixels, pixels);
             }
 #endif
+
             imgRenderer = GetComponent<RawImage>();
             imgRenderer.texture = webCamTexture;
             webCamTexture.Play();
@@ -84,6 +85,7 @@ public class QRCodeScanner : MonoBehaviour
             {
                 yield return null;
             }
+
             StartCoroutine(ScanQRCode());
         }
         else
@@ -94,8 +96,12 @@ public class QRCodeScanner : MonoBehaviour
 
     IEnumerator ScanQRCode()
     {
+        if (!webCamTexture.isPlaying)
+        {
+            webCamTexture.Play();
+            imgRenderer.texture = webCamTexture;
+        }
         BarcodeReader reader = new BarcodeReader();
-        webCamTexture.Play();
         Texture tex = imgRenderer.texture;
         Texture2D tex2d = new Texture2D(tex.width, tex.height, TextureFormat.RGBA32, false);
         RenderTexture currentRT = RenderTexture.active;
@@ -117,17 +123,19 @@ public class QRCodeScanner : MonoBehaviour
                     {
                         Debug.Log("DECODED TEXT FROM QR: " + QRCodeResult);
                         PageController.GetComponent<NameTagsCreater>().CreateButtons(QRCodeResult);
+                        QRCodeResult = string.Empty;
+                        imgRenderer.texture = new Texture2D(tex.width, tex.height);
                         PageController.GetComponent<PageChange>().Scan2Select();
                         break;
                     }
                     
                 }
-                Debug.Log("No Result!");
                 Destroy(renderTexture);
             }
             catch (Exception ex) { Debug.LogWarning(ex.Message); }
             yield return new WaitForSeconds(_readGap);
         }
         webCamTexture.Stop();
+        
     }
 }

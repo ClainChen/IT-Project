@@ -23,6 +23,7 @@ namespace DOT.Line
         private bool mouseDown = false;
 
         private bool canPlay = true;
+        public bool isTrying = false;
 
         // Start is called before the first frame update
         void Start()
@@ -77,11 +78,11 @@ namespace DOT.Line
         // Actions after lift up the left-mouse button
         void EndTouch()
         {
-            if (touchingDots.Count > 4)
+            
+            if (touchingDots.Count > 4 && !isTrying)
             {
                 canPlay = false;
                 GetComponent<PlayProcesses>().ActivateButtons();
-
             }
             mouseDown = false;
             lr.positionCount = numTouchedDots;
