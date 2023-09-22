@@ -105,12 +105,8 @@ Programmer & Animation Creator: Clain Chen
 
 API Implementation: Steve Chen
 
-UI Design In Figma & Animation Design: Raad, Macro Yue
+UI Design In Figma & Animation Design: Raad, Marco Yue
 
 UX Design: Tom Fang
 
 
-
- 
-
-#### Possible Challenges:
