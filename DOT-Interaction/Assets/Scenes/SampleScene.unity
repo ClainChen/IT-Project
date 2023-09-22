@@ -1427,7 +1427,7 @@ MonoBehaviour:
   - name: EnterPlayPage
     voice: {fileID: 8300000, guid: eee6cb357613ecc4790ed8d765127d29, type: 3}
   - name: S1Sim
-    voice: {fileID: 8300000, guid: 4ac32dcbd9c785e44a3964d14c578686, type: 3}
+    voice: {fileID: 8300000, guid: 674346ea3df98454e8582ea34a6e4e37, type: 3}
   - name: EnterS2
     voice: {fileID: 8300000, guid: 66d5ca3fe4ce6844bbf8dda05c1ec709, type: 3}
   - name: S2Sim
