@@ -20,14 +20,14 @@ public class LineSimulator : MonoBehaviour
     private Vector3 currentPosition;
     private Vector3 direction;
 
-    void Update()
+    void FixedUpdate()
     {
         if (!isPlaying) return;
         //Start Playing
         int i = lr.positionCount - 1;
         currentPosition += direction * speed * Time.deltaTime;
         lr.SetPosition(i, currentPosition);
-        if ((currentDots[i].transform.position - currentPosition).magnitude <= 8.0f)
+        if ((currentDots[i].transform.position - currentPosition).magnitude <= 30.0f)
         {
             if (lr.positionCount == 7)
             {
