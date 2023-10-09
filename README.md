@@ -1,50 +1,112 @@
-## Version 0.-1.4
+# Game Overview: Vis-CAT
 
-- Add User Information input interafece
-- Add more UI Pages
-- Complete the PlayPage Logics
-- Check the Game Processes
-- Function to Check whether the line connection is correct
-- QR Cide Scan
-- Full Screen Adaption
-- QR Code Data Collection and Implementation
+## Core Concept:
+
+This game use to test children's visual cognition and space imagination ability. Children need to copy the actual or some changing line pattern to show their abilities.
+
+## Genre:
+
+The App should be a simple line connection application, which included the test stage and the stage that play need to play the game to test their ability. This game do not want to give children any pression and hope to let children feel enjoy when they doing the test.
+
+## Target Audience:
+
+The students between 5 - 12 years old, and needs teacher to play with them.
+
+## Progress
+
+### Control:
+
+The game is facing to Tablet users, so basically using the touch-screen pattern, but also designed to able to run in computer by using mouse.
+
+### Pages:
+
+Check https://404error12138.atlassian.net/wiki/spaces/4EP/pages/3375119/UI+Design
+
+### Gameplay Mechanics:
+
+This will be a 2D flat plane game just like a normal browser, which run like Kahoot. This app will fulfill the following functions:
+
+- Player is able to interact with the buttons and buttons are able to do their works
+- Player is able to play freely in Try Stage.
+- Player is able to experience the normal gaming process in Play Stage
+- Player has only one retry chance in each level
+- Player will directly finish the game after they fulfill the condition
+- Player are able to do the interaction with vis-cat
+- The APP is able to scan the QR Code and receive the data in QR Code
+- The APP is able to send the final result of player to the backend
 
 
 
-## Version 0.-1.3
+## Game Design
 
-- Fix Some Bugs
-- Intro Animation when start playing
-- Animation that large the dot when mouse in it’s bound
-- Review the code and improve the basic structure
-- Add Start Game Scene
-- Add Scan Scene
-- Add Name Selection Scene
-- Comment Codes in two languages
-- Implement the intro animation to pop-out the matrixes
-- Fully UI Implementation
-- Fix UI Self Adaption Problems
-  - Now able to fit in most kinds of devices, excepts
-    - Some iPad which has a special width*height ratio
+### Art and Audio:
+
+#### Art Style:
+
+Responsible by Raad and Marco
+
+The art style should be fully cartoon, and create a atmosphere with please and funny. The element in background should be simple to avoid distract children's attention. The game will include some easy animations, such as the cat is able to wave it's arm, the sun is able to rotate, and the cloud can move around, etc.
+
+#### Sound & Music:
+
+Responsible by Tom
+
+As customer's requirement, the game do not have background music, but still has the sound effect when play connecting lines.
+
+#### Assets:
+
+To mask the game as simple as possible, we will make the background of game to pure color with different level, and add more elements gradually. We found dialog box, cloud, sun, cat, music score, stars, etc. Some simple icons, use for setting and page changes. All assets and fonts are found in the free website, and input them in Unity for further creation.
+
+The animation will entirely made in Unity, which using Unity's Animator and Animation Controller Components.
+
+#### User Interface (UI):
+
+The UI was quite brief, the button is round side with white background, and the dot matrixes are using the default material in Unity.
+
+**References:** 
+
+UI:
+
+https://www.figma.com/community/file/1217183388213575331/retro-cartoon-animation
+
+https://www.figma.com/community/file/1019353050314527791/doodle-icons
+
+https://www.figma.com/community/file/1074773789352934150/comics-in-figma
+
+Fonts:
+
+https://fonts.google.com/specimen/Gamja+Flower?query=gamja+flower
+
+AI Voice:
+
+https://ondoku3.com/en/
 
 
 
-## Version 0.-1.2
+### Technology and Tools:
 
-- Create a relative 4*4 Dot Matrix
-- Maintain the matrix and lines in performance part
-- Follow and track the customer’s input, get teh data of connection
-- Add simple UIs which use for track the state of line connection
-- Line will fade away slowly after Mouse Button up
-- Check the reulst after finish the level
+Development Software：Unity
 
-------
+UI Design Software：Figma
 
-## Version 0.-1.1
+Animation Design: Adobe Effect
 
-- Create Simple 4*4 Dot Matrix
-- Line’s extension follows the Mouse Movement
-- Restrict line’s spawn area
-- Line automatically attract to the dots
-- The behaviours of Mouse Button down / up
-- Test the validity of Web compatibility
+AI Voice Creator: https://ondoku3.com/en/
+
+Sound: StudioOne5
+
+### Team Communication, Timelines and Task Assignment:
+
+Scrum Master: Clain Chen
+
+Project Owner: Steve Chen
+
+Programmer & Animation Creator: Clain Chen
+
+API Implementation: Steve Chen
+
+UI Design In Figma & Animation Design: Raad, Marco Yue
+
+UX Design: Tom Fang
+
+
