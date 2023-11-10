@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Page controller, use to change pages.
+/// </summary>
 public class PageChange : MonoBehaviour
 {
     public GameObject StartPage;
@@ -12,6 +15,8 @@ public class PageChange : MonoBehaviour
     public GameObject TryPage;
     public GameObject PlayPage;
     public GameObject ResultPage;
+
+    private Coroutine currentCoroutine;
 
     void Start()
     {
@@ -30,7 +35,7 @@ public class PageChange : MonoBehaviour
         TryPage.SetActive(false);
         PlayPage.SetActive(false);
         ResultPage.SetActive(false);
-        VGController.instance.PlaySound("StartPage");
+        PlaySound("StartPage");
     }
 
     public void Start2Scan()
@@ -38,21 +43,21 @@ public class PageChange : MonoBehaviour
         StartPage.SetActive(false);
         ScanPage.SetActive(true);
         GetComponent<ClearNameTag>().ClearContent();
-        VGController.instance.PlaySound("ScanPage");
+        PlaySound("ScanPage");
     }
 
     public void Scan2Select()
     {
         ScanPage.SetActive(false);
         SelectPage.SetActive(true);
-        VGController.instance.PlaySound("SelectPage");
+        PlaySound("SelectPage");
     }
 
     public void Scan2TypeIn()
     {
         ScanPage.SetActive(false);
         TypeInPage.SetActive(true);
-        VGController.instance.PlaySound("TypeInPage");
+        PlaySound("TypeInPage");
     }
 
     public void Select2Menu()
@@ -60,7 +65,8 @@ public class PageChange : MonoBehaviour
         SelectPage.SetActive(false);
         MenuPage.SetActive(true);
         GetComponent<ClearNameTag>().ClearContent();
-        VGController.instance.PlaySound("MenuPage");
+        PlaySound("MenuPage");
+        StartCoroutine(PlaySoundProcesses("MenuPage"));
     }
 
     public void Select2TypeIn()
@@ -68,7 +74,7 @@ public class PageChange : MonoBehaviour
         SelectPage.SetActive(false);
         TypeInPage.SetActive(true);
         GetComponent<ClearNameTag>().ClearContent();
-        VGController.instance.PlaySound("TypeInPage");
+        PlaySound("TypeInPage");
     }
 
     public void Select2Scan()
@@ -76,15 +82,14 @@ public class PageChange : MonoBehaviour
         SelectPage.SetActive(false);
         GetComponent<ClearNameTag>().ClearContent();
         ScanPage.SetActive(true);
-        VGController.instance.PlaySound("ScanPage");
-
+        PlaySound("ScanPage");
     }
 
     public void TypeIn2Menu()
     {
         TypeInPage.SetActive(false);
         MenuPage.SetActive(true);
-        VGController.instance.PlaySound("MenuPage");
+        PlaySound("MenuPage");
     }
 
     public void Menu2Try()
@@ -93,11 +98,35 @@ public class PageChange : MonoBehaviour
         TryPage.SetActive(true);
     }
 
+    public void PlaySound(string name)
+    {
+        if (currentCoroutine != null) { StopCoroutine(currentCoroutine); }
+        currentCoroutine = StartCoroutine(PlaySoundProcesses(name));
+    }
+
+    IEnumerator PlaySoundProcesses(string name)
+    {
+        VGController.instance.SetCatCanSpeak(false);
+        VGController.instance.PlaySound(name);
+        yield return new WaitWhile(() => VGController.instance.voiceSource.isPlaying);
+        VGController.instance.SetCatCanSpeak(true);
+    }
+
     public void Menu2Play()
     {
         MenuPage.SetActive(false);
         PlayPage.SetActive(true);
+        if (currentCoroutine != null) { StopCoroutine(currentCoroutine); }
+        currentCoroutine = StartCoroutine(MenuToPlay());
+    }
+
+    IEnumerator MenuToPlay()
+    {
+        MenuPage.SetActive(false);
+        PlayPage.SetActive(true);
         VGController.instance.PlaySound("EnterPlayPage");
+        yield return new WaitWhile(() => VGController.instance.voiceSource.isPlaying);
+        VGController.instance.PlaySound("Reminder Finger");
     }
 
     public void Try2Menu()
@@ -110,13 +139,22 @@ public class PageChange : MonoBehaviour
     {
         PlayPage.SetActive(false);
         ResultPage.SetActive(true);
-        VGController.instance.PlaySound("ResultPage");
+
+        PlaySound("ResultPage");
+
+        GameObject ci = GameObject.Find("SelectedInfo");
+        if (ci == null) return;
+        SendData sd = ci.GetComponent<SendData>();
+        if (sd != null)
+        {
+            sd.SendJSON();
+        }
     }
 
     public void Result2Start()
     {
         ResultPage.SetActive(false);
         StartPage.SetActive(true);
-        VGController.instance.PlaySound("StartPage");
+        PlaySound("StartPage");
     }
 }

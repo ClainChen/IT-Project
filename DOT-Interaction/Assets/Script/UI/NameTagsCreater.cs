@@ -7,6 +7,9 @@ using DOT.Utilities;
 using TMPro;
 using Unity.VisualScripting;
 
+/// <summary>
+/// Create the name buttons after successfully scan the QR Code
+/// </summary>
 public class NameTagsCreater : MonoBehaviour
 {
     public GameObject Content;

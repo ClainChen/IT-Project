@@ -5,6 +5,9 @@ using System.Runtime.CompilerServices;
 using DOT.Line;
 using UnityEngine;
 
+/// <summary>
+/// The simulation of the line pattern
+/// </summary>
 public class LineSimulator : MonoBehaviour
 {
     public LineRenderer lr;
@@ -27,6 +30,7 @@ public class LineSimulator : MonoBehaviour
         int i = lr.positionCount - 1;
         currentPosition += direction * speed * Time.deltaTime;
         lr.SetPosition(i, currentPosition);
+        // Create a new line position if the ending point of the line is close enough to the target dot
         if ((currentDots[i].transform.position - currentPosition).magnitude <= 30.0f)
         {
             if (lr.positionCount == 7)
@@ -51,6 +55,7 @@ public class LineSimulator : MonoBehaviour
     public void Play()
     {
         // Pre Initialize Process
+        // Decided which dot pattern is going to play
         lr.positionCount = 0;
         switch (game.GetLevel())
         {
