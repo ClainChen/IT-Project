@@ -113,8 +113,10 @@ UX Design: Tom Fang
 
 ## How to use
 
-This is a Unity project. You need to open the DOT-Interaction file inside the main repository with unity editor version 2022.3.5f1(LTS) if want to make any changes to this program. We provide a WebGL build inside the (...) file. However,if you want to build the project again, select file->Build settings, make sure you switch to WebGL platform before build. The player settings is already set for you.
+This is a Unity project. You need to open the DOT-Interaction file inside the main repository with Unity editor version 2022.3.5f1(LTS) if want to make any changes to this program. We provide a WebGL build inside the (...) file. However, if you want to build the project again, select file->Build settings, and make sure you switch to the WebGL platform before build. The player settings are already set for you.
 
 ![How_to_build](How_to_build.PNG)
 
 The WebGL build file is what you want to put in your cloud server.
+
+![WebGL_file_location](WebGL_file_location.png)
