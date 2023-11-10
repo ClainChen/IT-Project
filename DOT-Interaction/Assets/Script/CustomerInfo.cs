@@ -44,7 +44,6 @@ public class CustomerInfo : MonoBehaviour
 
     public int Score{ get; set; }
 
-
     public void SetCustomerInfo(string name, string id)
     {
         Name = name;
