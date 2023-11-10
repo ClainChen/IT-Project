@@ -8,6 +8,10 @@ using UnityEngine.Analytics;
 
 namespace DOT.Line
 {
+    /// <summary>
+    /// The process logic when playing the game,
+    /// include in the level change, score counting and success, fail determinations.
+    /// </summary>
     public class PlayProcesses : MonoBehaviour
     {
         public LineRendererController lineRendererController;
@@ -24,10 +28,13 @@ namespace DOT.Line
             "Horizontal Flip"
         };
 
+        // The control whether the current process is quick test
         public bool IsQuickTest = false;
 
         private int level = 1;
         private int levelScore = 2;
+
+        // Behaviour after click retry button
         public void ClickRetry()
         {
             lineRendererController.EraseLine();
@@ -35,6 +42,9 @@ namespace DOT.Line
             DeactivateButtons();
         }
 
+
+        // Behaviour afterclick next button
+        // Aiming to check whether the input is correct and continue to the next level
         public void ClickNext()
         {
             CheckResult();
@@ -46,6 +56,7 @@ namespace DOT.Line
             IsQuickTest = !IsQuickTest;
         }
 
+        // Initialize the game state and description
         public void Initialize()
         {
             Title.text = levelNames[0];
@@ -60,6 +71,7 @@ namespace DOT.Line
             string[] checkingLines;
             if (!IsQuickTest)
             {
+                // Pharse the target matrix pattern to current checking matrix
                 switch (level)
                 {
                     case 1: checkingLines = Constants.DOTS_NORMAL; break;
@@ -75,6 +87,7 @@ namespace DOT.Line
             
             bool pass = true;
 
+            // Check the input pattern and the target pattern
             if (touchedLines.Count == checkingLines.Length)
             {
                 for (int i = 0; i < touchedLines.Count; i++)
@@ -118,6 +131,8 @@ namespace DOT.Line
             }
         }
 
+        // The behaviour after success the current level
+        // Add score and go to next level
         void Success()
         {
             customerInfo.Score += levelScore;
@@ -130,6 +145,7 @@ namespace DOT.Line
             VGController.instance.PlaySound($"EnterS{level}");
         }
 
+        // Change the page from play page to result page
         void Play2Result()
         {
             level = 1;
@@ -139,6 +155,7 @@ namespace DOT.Line
             pageChange.Play2Result();
         }
 
+        // Activate next and retry buttons
         public void ActivateButtons()
         {
             ButtonNext.SetActive(true);
@@ -147,6 +164,7 @@ namespace DOT.Line
             ButtonRetry.SetActive(true);
         }
 
+        // Deactivate next and retry buttons
         public void DeactivateButtons()
         {
             ButtonNext.SetActive(false);

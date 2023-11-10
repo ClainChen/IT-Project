@@ -8,6 +8,9 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace DOT.Line
 {
+    /// <summary>
+    /// The controller for the customer dot interaction
+    /// </summary>
     public class LineRendererController : MonoBehaviour
     {
         // Pre-initialize 预初始化组件
@@ -137,6 +140,7 @@ namespace DOT.Line
             return false;
         }
 
+        // Remove the line
         public void EraseLine()
         {
             numTouchedDots = 0;
@@ -146,6 +150,7 @@ namespace DOT.Line
             canPlay = true;
         }
 
+        // Reset lines and sync the line state in current frame
         void UpdateLine()
         {
             lr.positionCount = touchingDots.Count;

@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Page controller, use to change pages.
+/// </summary>
 public class PageChange : MonoBehaviour
 {
     public GameObject StartPage;

@@ -5,6 +5,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+/// <summary>
+/// Voice Guide Controller, use to store all voice guide audio clips and manage them.
+/// </summary>
 public class VGController : MonoBehaviour
 {
     public static VGController instance;
@@ -20,6 +23,7 @@ public class VGController : MonoBehaviour
 
     private bool catCanSpeak = true;
     [HideInInspector] public AudioSource voiceSource;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,6 +41,7 @@ public class VGController : MonoBehaviour
         
     }
 
+    // Play cat's sound
     public void PlayCatSound()
     {
         if (!voiceSource.isPlaying && catCanSpeak)
@@ -47,6 +52,7 @@ public class VGController : MonoBehaviour
         }
     }
 
+    // Play specific sound
     public void PlaySound(string name)
     {
         foreach (var voice in Voices)

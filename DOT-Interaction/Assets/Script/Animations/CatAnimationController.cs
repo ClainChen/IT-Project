@@ -6,6 +6,9 @@ public class CatAnimationController : MonoBehaviour
 {
     public Animator animator;
 
+    /// <summary>
+    ///  The behavior after click on the cat
+    /// </summary>
     public void Click()
     {
         StartCoroutine(ClickAnimatorProcess());

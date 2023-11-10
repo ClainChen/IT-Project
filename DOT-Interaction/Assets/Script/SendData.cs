@@ -5,6 +5,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 
+/// <summary>
+/// Send the data to the backend server.
+/// </summary>
 public class SendData : MonoBehaviour
 {
     private List<string> serverUrls = new List<string>();
