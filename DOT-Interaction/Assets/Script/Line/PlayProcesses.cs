@@ -17,6 +17,15 @@ namespace DOT.Line
         public GameObject ButtonNext;
         public TextMeshProUGUI Title;
 
+        private List<string> levelNames = new()
+        {
+            "Regular Pattern",
+            "Vertical Flip",
+            "Horizontal Flip"
+        };
+
+        public bool IsQuickTest = false;
+
         private int level = 1;
         private int levelScore = 2;
         public void ClickRetry()
@@ -32,20 +41,39 @@ namespace DOT.Line
             DeactivateButtons();
         }
 
+        public void ChangeQuickTest()
+        {
+            IsQuickTest = !IsQuickTest;
+        }
+
+        public void Initialize()
+        {
+            Title.text = levelNames[0];
+            level = 1;
+            levelScore = 2;
+        }
+
         public void CheckResult()
         {
+            
             List<GameObject> touchedLines = lineRendererController.GetTouchingLines();
             string[] checkingLines;
-            switch (level)
+            if (!IsQuickTest)
             {
-                case 1: checkingLines = Constants.DOTS_NORMAL; break;
-                case 2: checkingLines = Constants.DOTS_VER_FLIP; break;
-                case 3: checkingLines = Constants.DOTS_HOR_FLIP; break;
-                default: throw new Exception("Level is invalid!");
+                switch (level)
+                {
+                    case 1: checkingLines = Constants.DOTS_NORMAL; break;
+                    case 2: checkingLines = Constants.DOTS_VER_FLIP; break;
+                    case 3: checkingLines = Constants.DOTS_HOR_FLIP; break;
+                    default: throw new Exception("Level is invalid!");
+                }
             }
-
+            else
+            {
+                checkingLines = Constants.DOTS_NORMAL;
+            }
+            
             bool pass = true;
-
 
             if (touchedLines.Count == checkingLines.Length)
             {
@@ -72,7 +100,16 @@ namespace DOT.Line
 
             if (pass)
             {
-                Success();
+                if (!IsQuickTest)
+                {
+                    Success();
+                }
+                else
+                {
+                    Debug.Log("QuickTest Finished!");
+                    Play2Result();
+                }
+                
             }
             
             if (level == 4)
@@ -88,7 +125,7 @@ namespace DOT.Line
             levelScore = 2;
             level++;
             lineRendererController.EraseLine();
-            Title.text = $"Stage {level}";
+            Title.text = levelNames[level - 1];
             Debug.Log($"Score Now: {customerInfo.Score}");
             VGController.instance.PlaySound($"EnterS{level}");
         }
@@ -97,7 +134,7 @@ namespace DOT.Line
         {
             level = 1;
             levelScore = 2;
-            Title.text = $"Stage {level}";
+            Title.text = levelNames[0];
             lineRendererController.EraseLine();
             pageChange.Play2Result();
         }
