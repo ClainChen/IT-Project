@@ -20,7 +20,29 @@ The game is facing to Tablet users, so basically using the touch-screen pattern,
 
 ### Pages:
 
-Check https://404error12138.atlassian.net/wiki/spaces/4EP/pages/3375119/UI+Design
+Start page:
+
+![Start_page](ReadMe_Images/Start_page.png)
+
+QR code scan page:
+
+![QR_code_scan_page](ReadMe_Images/QR_code_scan_page.png)
+
+Name selection page:
+
+![Name_selection_page](ReadMe_Images/Name_selection_page.png)
+
+Menu page:
+
+![Menu_page](ReadMe_Images/Menu_page.PNG)
+
+Game page:
+
+![Game_page](ReadMe_Images/Game_page.png)
+
+Finish page:
+
+For more details, check https://404error12138.atlassian.net/wiki/spaces/4EP/pages/3375119/UI+Design
 
 ### Gameplay Mechanics:
 
@@ -110,3 +132,13 @@ UI Design In Figma & Animation Design: Raad, Marco Yue
 UX Design: Tom Fang
 
 
+
+## How to use
+
+This is a Unity project. You need to open the DOT-Interaction file inside the main repository with Unity editor version 2022.3.5f1(LTS) if want to make any changes to this program. We provide a WebGL build inside the (...) file. However, if you want to build the project again, select file->Build settings, and make sure you switch to the WebGL platform before build. The player settings are already set for you.
+
+![How_to_build](ReadMe_Images/How_to_build.PNG)
+
+The WebGL build file is what you want to put in your cloud server.
+
+![WebGL_file_location](ReadMe_Images/WebGL_file_location.png)

@@ -3,7 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
+/// <summary>
+/// Voice Guide Controller, use to store all voice guide audio clips and manage them.
+/// </summary>
 public class VGController : MonoBehaviour
 {
     public static VGController instance;
@@ -17,7 +21,9 @@ public class VGController : MonoBehaviour
 
     public List<Voice> Voices;
 
-    private AudioSource voiceSource;
+    private bool catCanSpeak = true;
+    [HideInInspector] public AudioSource voiceSource;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,6 +41,18 @@ public class VGController : MonoBehaviour
         
     }
 
+    // Play cat's sound
+    public void PlayCatSound()
+    {
+        if (!voiceSource.isPlaying && catCanSpeak)
+        {
+            int i = Random.Range(1, 6);
+            string name = $"CatVoice{i}";
+            PlaySound(name);
+        }
+    }
+
+    // Play specific sound
     public void PlaySound(string name)
     {
         foreach (var voice in Voices)
@@ -53,5 +71,10 @@ public class VGController : MonoBehaviour
     public void StopSound()
     {
         voiceSource.Stop();
+    }
+
+    public void SetCatCanSpeak(bool b)
+    {
+        catCanSpeak = b;
     }
 }

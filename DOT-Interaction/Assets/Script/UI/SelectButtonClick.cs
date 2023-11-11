@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// The behaviour after click the name button
+/// </summary>
 public class SelectButtonClick : MonoBehaviour
 {
     public void Click()
