@@ -71,3 +71,5 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /DOT-Interaction/[Aa]ssets/[Ss]treamingAssets/aa.meta
 /DOT-Interaction/[Aa]ssets/[Ss]treamingAssets/aa/*
+
+!HandOver/IT-Project-main.zip
