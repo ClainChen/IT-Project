@@ -3,6 +3,10 @@ using UnityEngine;
 
 namespace DOT.Animations
 {
+    /// <summary>
+    /// The animation when mouse enter the dot,
+    /// the dot should get larger and play the "bop" sound
+    /// </summary>
     public class DotBubbleAnimation : MonoBehaviour
     {
         private GameObject[] rightDots;

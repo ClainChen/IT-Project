@@ -5,6 +5,9 @@ using DOT.Line;
 using Unity.VisualScripting;
 using UnityEngine;
 
+/// <summary>
+/// The animation controller for the simulation matrix slides in or out the canvas.
+/// </summary>
 public class PlaySimSlideAnimation : MonoBehaviour
 {
     public Animator animator;
@@ -23,6 +26,7 @@ public class PlaySimSlideAnimation : MonoBehaviour
         }
     }
     
+    // Slides in the simulation matrix
     void PlayToSim()
     {
         Debug.Log("Change To Simulation");
@@ -31,6 +35,7 @@ public class PlaySimSlideAnimation : MonoBehaviour
         GetComponent<DotBubbleAnimation>().enabled = false;
     }
 
+    // Slides out the simulationo matrix
     void SimToPlay()
     {
         Debug.Log("Change To Play");

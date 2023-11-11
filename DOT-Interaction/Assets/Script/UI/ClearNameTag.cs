@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Clear all name button after exit the select page
+/// </summary>
 public class ClearNameTag : MonoBehaviour
 {
     public GameObject Content;
