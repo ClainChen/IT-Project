@@ -125,10 +125,7 @@ namespace DOT.Line
                 
             }
             
-            if (level == 4)
-            {
-                Play2Result();
-            }
+            
         }
 
         // The behaviour after success the current level
@@ -140,6 +137,11 @@ namespace DOT.Line
             levelScore = 2;
             level++;
             lineRendererController.EraseLine();
+            if (level == 4)
+            {
+                Play2Result();
+                return;
+            }
             Title.text = levelNames[level - 1];
             Debug.Log($"Score Now: {customerInfo.Score}");
             VGController.instance.PlaySound($"EnterS{level}");
